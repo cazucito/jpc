@@ -1,2 +1,2 @@
 # jpc
-Jackson Pollock in canvas
+JP in canvas

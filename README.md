@@ -1,2 +1,2 @@
 # jpc
-JP in canvas
+JP in canvas alpha

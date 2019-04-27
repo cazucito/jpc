@@ -28,7 +28,7 @@
                 Iterations
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Iteration 01</a>
+                <a class="dropdown-item" href="javascript:createPainting(document.getElementById('jpcanvas'), 100000);">Iteration 01</a>
                 <a class="dropdown-item" href="#">Iteration 02</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Experimental 01</a>
@@ -52,12 +52,12 @@
     <section>
       <header><h3></h3></header>
       <div class="row">
-        <div id="containerCanvas" class="col-md-10 full"><canvas id="jpcanvas">NOT SUPPORTED</canvas></div>
-        <div class="col-md-2  bg-dark  text-light">Choose three color<br>
+        <div id="containerCanvas" class="col-md-12 flex-grow-1"><canvas id="jpcanvas">NOT SUPPORTED</canvas></div>
+<!--        <div class="col-md-2 text-light  flex-grow-1 flex-fill">Choose three color<br>
           <input type="checkbox" value="B-W-R"> B-W-R<br>
           <input type="checkbox" value="B-W-R"> B-W-R<br>
           <input type="checkbox" value="B-W-R"> B-W-R
-        </div>
+        </div>-->
       </div
     </section>
     <footer>
@@ -65,8 +65,6 @@
         <a class="navbar-brand text-light" href="#">&copy; :)</a>
       </nav>
     </footer>
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

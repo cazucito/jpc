@@ -1,32 +1,56 @@
 function init() {
-  setupCanvas();
+    setupCanvas();
 }
 function setupCanvas() {
-  var containerCanvas = document.getElementById("containerCanvas");
-  var divHeight = containerCanvas.clientHeight;
-  var divWidth = containerCanvas.clientWidth;
-  if (divHeight < 500) {
-    divHeight = 600;
-  }
+    var containerCanvas = document.getElementById("containerCanvas");
+    var divHeight = containerCanvas.clientHeight;
+    var divWidth = containerCanvas.clientWidth;
+    var body = document.body, html = document.documentElement;
+    var height = Math.max(body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight);
+    divHeight = height;
+//    containerCanvas.style.height = height;
+//    containerCanvas.style.width = divWidth;
+    var canvas = document.getElementById("jpcanvas");
+    var marco = 40;
+    canvas.width = divWidth - marco;
+    canvas.height = divHeight - marco;
+    var ctx = canvas.getContext("2d");
 
-  var body = document.body,
-          html = document.documentElement;
+    //ctx.rect(0, 0, canvas.width - marco, canvas.height);
 
-  var height = Math.max(body.scrollHeight, body.offsetHeight,
-          html.clientHeight, html.scrollHeight, html.offsetHeight);
-  console.log(height);
-  containerCanvas.style.height = height;
-  containerCanvas.style.width = divWidth;
-  console.log(JSON.stringify(divHeight));
-  console.log(JSON.stringify(divWidth));
-  var canvas = document.getElementById("jpcanvas");
-  canvas.width = divWidth;
-  canvas.height = divHeight;
-  var ctx = canvas.getContext("2d");
-  var marco = 10;
-  ctx.rect(marco, marco, canvas.width - marco, canvas.height - marco);
-  ctx.stroke();
+    ctx.stroke();
 
 
 
+}
+function drawLine(_canvas, _widthLine, _colorLine, _origCoord, _targetCoord) {
+    localCtx = _canvas.getContext("2d");
+    localCtx.beginPath();
+    localCtx.lineWidth = _widthLine;
+    localCtx.strokeStyle = _colorLine; // Green path
+    localCtx.moveTo(_origCoord.x, _origCoord.y);
+    localCtx.lineTo(_targetCoord.x, _targetCoord.y);
+    localCtx.stroke();
+}
+function createPainting(_canvas, _howManyLines) {
+    for (i = 0; i < _howManyLines; i++) {
+        orig = {
+            x: getRandomInt(0, _canvas.width),
+            y: getRandomInt(0, _canvas.height)
+        };
+        target = {
+            x: getRandomInt(0, _canvas.width),
+            y: getRandomInt(0, _canvas.height)
+        };
+        drawLine(_canvas, 2, getRandomColor(), orig, target);
+    }
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+var colors = ["black", "white", "red"];
+function getRandomColor() {
+    return colors[Math.floor(Math.random() * (colors.length + 1 - 0)) + 0];
 }

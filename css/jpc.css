@@ -1,7 +1,35 @@
 .full {
   background-color: transparent;
   padding: 10px;
-  /*height: 300px;*/ /*added a height to illustrate*/
-  display: flex; /* new */
-  flex-direction:column; /* new */
+  /*height: 300px;*/
+  /*added a height to illustrate*/
+  display: flex;
+  /* new */
+  flex-direction: column;
+  /* new */
+}
+
+.black {
+  color: black;
+  text-shadow: 1px 1px 1px #aaa;
+}
+
+.blue {
+  color: #0000ff;
+    text-shadow: 1px 1px 1px #aaa;
+}
+
+.white {
+  color: white;
+    text-shadow: 1px 1px 1px #aaa;
+}
+
+.red {
+  color: #ff0000;
+    text-shadow: 1px 1px 1px #aaa;
+}
+
+.green {
+  color: #00ff00;
+    text-shadow: 1px 1px 1px #aaa;
 }

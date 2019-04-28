@@ -24,7 +24,7 @@ function setupCanvas() {
 
 
 }
-function drawLine(_canvas, _widthLine, _colorLine, _origCoord, _targetCoord) {
+function drawLine01(_canvas, _widthLine, _colorLine, _origCoord, _targetCoord) {
     localCtx = _canvas.getContext("2d");
     localCtx.beginPath();
     localCtx.lineWidth = _widthLine;
@@ -33,7 +33,7 @@ function drawLine(_canvas, _widthLine, _colorLine, _origCoord, _targetCoord) {
     localCtx.lineTo(_targetCoord.x, _targetCoord.y);
     localCtx.stroke();
 }
-function createPainting(_canvas, _howManyLines) {
+function createPainting01(_canvas, _howManyLines) {
     for (i = 0; i < _howManyLines; i++) {
         orig = {
             x: getRandomInt(0, _canvas.width),
@@ -43,7 +43,7 @@ function createPainting(_canvas, _howManyLines) {
             x: getRandomInt(0, _canvas.width),
             y: getRandomInt(0, _canvas.height)
         };
-        drawLine(_canvas, 2, getRandomColor(), orig, target);
+        drawLine01(_canvas, 2, getRandomColor(), orig, target);
     }
 }
 

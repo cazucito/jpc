@@ -1,7 +1,7 @@
 .full {
   background-color: transparent;
-  padding: 2px;
-  height: 300px; /*added a height to illustrate*/
+  padding: 10px;
+  /*height: 300px;*/ /*added a height to illustrate*/
   display: flex; /* new */
   flex-direction:column; /* new */
 }

@@ -12,7 +12,7 @@ function setupCanvas() {
 //    containerCanvas.style.height = height;
 //    containerCanvas.style.width = divWidth;
     var canvas = document.getElementById("jpcanvas");
-    var marco = 40;
+    var marco = 60;
     canvas.width = divWidth - marco;
     canvas.height = divHeight - marco;
     var ctx = canvas.getContext("2d");

@@ -1,0 +1,16 @@
+(function (global) {
+  'use strict';
+
+  const JPC = global.JPC = global.JPC || {};
+
+  JPC.PerformanceConfig = {
+    DEFAULT_LINES: 9000,
+    BATCH_SIZE: 250,
+    STROKE_WIDTH: 2,
+    FRAME_BUDGET_MS: 10,
+    MIN_CANVAS_HEIGHT: 240,
+    MAX_CANVAS_HEIGHT: 1400,
+    CANVAS_VERTICAL_PADDING: 130,
+    RESIZE_DEBOUNCE_MS: 200
+  };
+})(window);

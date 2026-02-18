@@ -75,10 +75,37 @@ If the page still feels heavy on very low-end devices:
 - reduce `BATCH_SIZE` in `js/jpc.js`
 - keep canvas dimensions bounded to viewport
 
+## GitHub Pages (v2 hardening)
+
+This repository is intended to publish from **GitHub Pages** as a project site:
+
+- URL: <https://cazucito.github.io/jpc/>
+- Source branch: `master`
+- Source folder: `/ (root)`
+
+Hardening added for deployment stability:
+
+- `.nojekyll` to serve static files directly
+- `404.html` redirect to `index.html` to reduce broken-route issues
+
+### Recommended Pages settings
+
+1. Go to **Settings → Pages**
+2. Under **Build and deployment**:
+   - Source: **Deploy from a branch**
+   - Branch: **master**
+   - Folder: **/ (root)**
+3. Save and wait ~1–2 minutes.
+
+### Troubleshooting
+
+- If old version appears, force refresh (`Ctrl/Cmd + Shift + R`)
+- Confirm branch/folder match exactly (`master` + `/root`)
+- Check Actions/Pages status if deployment is pending
+
 ## Roadmap (near-term)
 
 - User-selectable custom colors
-- Better GitHub Pages/deployment notes
 - Extended README with screenshots and contribution guide
 
 ## Author

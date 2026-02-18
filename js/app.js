@@ -138,29 +138,30 @@ function attachControlHandlers() {
   const strokeValue = document.getElementById('stroke-width-value');
   const resetBtn = document.getElementById('reset-defaults');
 
+  let controlRenderTimer = null;
+  const scheduleRender = () => {
+    clearTimeout(controlRenderTimer);
+    controlRenderTimer = setTimeout(() => {
+      persistPreferences();
+      renderWithDefaults(AppState.lastColorSet);
+    }, 120);
+  };
+
   if (lineInput && lineValue) {
     lineInput.addEventListener('input', () => {
       const value = Number(lineInput.value);
+      PerformanceConfig.DEFAULT_LINES = value;
       lineValue.textContent = String(value);
-    });
-
-    lineInput.addEventListener('change', () => {
-      PerformanceConfig.DEFAULT_LINES = Number(lineInput.value);
-      persistPreferences();
-      renderWithDefaults(AppState.lastColorSet);
+      scheduleRender();
     });
   }
 
   if (strokeInput && strokeValue) {
     strokeInput.addEventListener('input', () => {
       const value = Number(strokeInput.value);
+      PerformanceConfig.STROKE_WIDTH = value;
       strokeValue.textContent = String(value);
-    });
-
-    strokeInput.addEventListener('change', () => {
-      PerformanceConfig.STROKE_WIDTH = Number(strokeInput.value);
-      persistPreferences();
-      renderWithDefaults(AppState.lastColorSet);
+      scheduleRender();
     });
   }
 

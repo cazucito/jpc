@@ -98,7 +98,49 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 10px;
+}
+
+.controls-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(140px, 1fr));
+  gap: 10px;
   margin-bottom: 12px;
+}
+
+.control-item {
+  display: grid;
+  gap: 4px;
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.control-item input[type="range"] {
+  width: 100%;
+}
+
+.control-value {
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.btn-reset {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.btn-reset:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .meta-label {
@@ -157,4 +199,5 @@ body {
   .app-shell { width: min(1160px, 100% - 18px); }
   .topbar { padding: 12px; }
   .canvas-card { padding: 10px; }
+  .controls-panel { grid-template-columns: 1fr; }
 }

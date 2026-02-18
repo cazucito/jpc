@@ -2,9 +2,15 @@ import { AppState } from './state.js';
 import { PerformanceConfig } from './config.js';
 import { JPPainter } from './painter.js';
 
+const STORAGE_KEY = 'jpc_render_preferences_v1';
+
 class Default {
   static howManyLines() {
-    return PerformanceConfig.DEFAULT_LINES;
+    return 9000;
+  }
+
+  static strokeWidth() {
+    return 2;
   }
 
   static colorSet() {
@@ -60,13 +66,35 @@ function setActivePreset(colorSet) {
   });
 }
 
+function persistPreferences() {
+  const data = {
+    lines: PerformanceConfig.DEFAULT_LINES,
+    stroke: PerformanceConfig.STROKE_WIDTH
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadPreferences() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    if (Number.isFinite(data.lines)) {
+      PerformanceConfig.DEFAULT_LINES = data.lines;
+    }
+    if (Number.isFinite(data.stroke)) {
+      PerformanceConfig.STROKE_WIDTH = data.stroke;
+    }
+  } catch {
+    // noop
+  }
+}
+
 function renderWithDefaults(colorSet) {
   const palette = colorSet || AppState.lastColorSet || Default.colorSet();
   updateStatus(true);
 
   JPPainter.createPaintingA(
     AppState.canvas,
-    Default.howManyLines(),
+    PerformanceConfig.DEFAULT_LINES,
     palette
   );
 
@@ -84,6 +112,67 @@ function attachResizeHandler() {
       renderWithDefaults(AppState.lastColorSet);
     }, PerformanceConfig.RESIZE_DEBOUNCE_MS);
   });
+}
+
+function syncControlValues() {
+  const lineInput = document.getElementById('line-count');
+  const lineValue = document.getElementById('line-count-value');
+  const strokeInput = document.getElementById('stroke-width');
+  const strokeValue = document.getElementById('stroke-width-value');
+
+  if (lineInput && lineValue) {
+    lineInput.value = String(PerformanceConfig.DEFAULT_LINES);
+    lineValue.textContent = String(PerformanceConfig.DEFAULT_LINES);
+  }
+
+  if (strokeInput && strokeValue) {
+    strokeInput.value = String(PerformanceConfig.STROKE_WIDTH);
+    strokeValue.textContent = String(PerformanceConfig.STROKE_WIDTH);
+  }
+}
+
+function attachControlHandlers() {
+  const lineInput = document.getElementById('line-count');
+  const lineValue = document.getElementById('line-count-value');
+  const strokeInput = document.getElementById('stroke-width');
+  const strokeValue = document.getElementById('stroke-width-value');
+  const resetBtn = document.getElementById('reset-defaults');
+
+  if (lineInput && lineValue) {
+    lineInput.addEventListener('input', () => {
+      const value = Number(lineInput.value);
+      lineValue.textContent = String(value);
+    });
+
+    lineInput.addEventListener('change', () => {
+      PerformanceConfig.DEFAULT_LINES = Number(lineInput.value);
+      persistPreferences();
+      renderWithDefaults(AppState.lastColorSet);
+    });
+  }
+
+  if (strokeInput && strokeValue) {
+    strokeInput.addEventListener('input', () => {
+      const value = Number(strokeInput.value);
+      strokeValue.textContent = String(value);
+    });
+
+    strokeInput.addEventListener('change', () => {
+      PerformanceConfig.STROKE_WIDTH = Number(strokeInput.value);
+      persistPreferences();
+      renderWithDefaults(AppState.lastColorSet);
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      PerformanceConfig.DEFAULT_LINES = Default.howManyLines();
+      PerformanceConfig.STROKE_WIDTH = Default.strokeWidth();
+      persistPreferences();
+      syncControlValues();
+      renderWithDefaults(Default.colorSet());
+    });
+  }
 }
 
 function attachNavigationHandlers() {
@@ -105,10 +194,13 @@ function attachNavigationHandlers() {
 }
 
 export function init() {
+  loadPreferences();
   setupCanvas();
+  syncControlValues();
   renderWithDefaults(Default.colorSet());
   attachResizeHandler();
   attachNavigationHandlers();
+  attachControlHandlers();
 }
 
 document.addEventListener('DOMContentLoaded', init);

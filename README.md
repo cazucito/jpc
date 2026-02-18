@@ -38,9 +38,17 @@ JPCanvas renders abstract paintings by drawing thousands of random lines with co
 ## Project structure
 
 - `index.html` — app shell and navigation
-- `js/jpc.js` — canvas engine and render orchestration
+- `js/config.js` — runtime/performance config
+- `js/state.js` — shared app state
+- `js/util.js` — helper utilities
+- `js/color.js` — palette and color selection
+- `js/painter.js` — canvas rendering engine
+- `js/app.js` — bootstrap + orchestration
+- `js/jpc.js` — compatibility shim
 - `css/jpc.css` — project-specific styles
 - `css/`, `js/`, `fonts/` — Bootstrap/static assets
+
+See `ARCHITECTURE.md` for the refactor details.
 
 ## Run locally
 

@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link text-light" href="javascript:JPPainter.createPaintingA(document.getElementById('jpcanvas'), Default.howManyLines(), Default.colorSet());">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link text-light" href="#" data-action="render" data-colorset="BWR">Home <span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item dropdown">
@@ -29,9 +29,9 @@
                 | Iterations
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="javascript:JPPainter.createPaintingA(document.getElementById('jpcanvas'), Default.howManyLines(), 'BWR');">Iteration 01 (BWR)</a>
-                <a class="dropdown-item" href="javascript:JPPainter.createPaintingA(document.getElementById('jpcanvas'), Default.howManyLines(), 'BWR2');">Iteration 02 (BWR2)</a>
-                <a class="dropdown-item" href="javascript:JPPainter.createPaintingA(document.getElementById('jpcanvas'), Default.howManyLines(), 'RGB');">Iteration 03 (RGB)</a>
+                <a class="dropdown-item" href="#" data-action="render" data-colorset="BWR">Iteration 01 (BWR)</a>
+                <a class="dropdown-item" href="#" data-action="render" data-colorset="BWR2">Iteration 02 (BWR2)</a>
+                <a class="dropdown-item" href="#" data-action="render" data-colorset="RGB">Iteration 03 (RGB)</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Experimental 01</a>
                 <a class="dropdown-item" href="#">Experimental 02</a>
@@ -77,12 +77,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="js/config.js" type="text/javascript"></script>
-    <script src="js/state.js" type="text/javascript"></script>
-    <script src="js/util.js" type="text/javascript"></script>
-    <script src="js/color.js" type="text/javascript"></script>
-    <script src="js/painter.js" type="text/javascript"></script>
-    <script src="js/app.js" type="text/javascript"></script>
-    <script src="js/jpc.js" type="text/javascript"></script>
+    <script type="module" src="js/app.js"></script>
   </body>
 </html>

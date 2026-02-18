@@ -43,8 +43,7 @@ JPCanvas renders abstract paintings by drawing thousands of random lines with co
 - `js/util.js` — helper utilities
 - `js/color.js` — palette and color selection
 - `js/painter.js` — canvas rendering engine
-- `js/app.js` — bootstrap + orchestration
-- `js/jpc.js` — compatibility shim
+- `js/app.js` — ES module entrypoint + orchestration
 - `css/jpc.css` — project-specific styles
 - `css/`, `js/`, `fonts/` — Bootstrap/static assets
 

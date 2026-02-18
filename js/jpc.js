@@ -2,10 +2,13 @@
   'use strict';
 
   const PerformanceConfig = {
-    DEFAULT_LINES: 12000,
+    DEFAULT_LINES: 9000,
     BATCH_SIZE: 250,
     STROKE_WIDTH: 2,
-    FRAME_BUDGET_MS: 10
+    FRAME_BUDGET_MS: 10,
+    MIN_CANVAS_HEIGHT: 240,
+    MAX_CANVAS_HEIGHT: 1400,
+    CANVAS_VERTICAL_PADDING: 130
   };
 
   const AppState = {
@@ -28,23 +31,22 @@
 
     if (!containerCanvas || !canvas) return;
 
-    const divWidth = containerCanvas.clientWidth;
-    const body = document.body;
-    const html = document.documentElement;
-    const pageHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
+    const viewportWidth = Math.max(320, containerCanvas.clientWidth || window.innerWidth || 320);
+    const viewportHeight = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0);
+
+    const targetHeight = Math.max(
+      PerformanceConfig.MIN_CANVAS_HEIGHT,
+      Math.min(
+        PerformanceConfig.MAX_CANVAS_HEIGHT,
+        viewportHeight - PerformanceConfig.CANVAS_VERTICAL_PADDING
+      )
     );
 
-    containerCanvas.style.height = `${pageHeight}px`;
-    containerCanvas.style.width = `${divWidth}px`;
+    containerCanvas.style.width = `${viewportWidth}px`;
+    containerCanvas.style.height = `${targetHeight}px`;
 
-    const footerAndMargins = 130;
-    canvas.width = Math.max(320, divWidth);
-    canvas.height = Math.max(240, pageHeight - footerAndMargins);
+    canvas.width = viewportWidth;
+    canvas.height = targetHeight;
 
     AppState.canvas = canvas;
     AppState.ctx = canvas.getContext('2d');

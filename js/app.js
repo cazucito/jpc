@@ -68,11 +68,30 @@ function attachNavigationHandlers() {
   });
 }
 
+function attachCustomColorHandler() {
+  const form = document.getElementById('custom-color-form');
+  if (!form) return;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const color1 = document.getElementById('custom-color-1')?.value;
+    const color2 = document.getElementById('custom-color-2')?.value;
+    const color3 = document.getElementById('custom-color-3')?.value;
+
+    const customPalette = [color1, color2, color3].filter(Boolean);
+    if (customPalette.length !== 3) return;
+
+    renderWithDefaults(customPalette);
+  });
+}
+
 export function init() {
   setupCanvas();
   renderWithDefaults(Default.colorSet());
   attachResizeHandler();
   attachNavigationHandlers();
+  attachCustomColorHandler();
 }
 
 document.addEventListener('DOMContentLoaded', init);

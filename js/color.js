@@ -1,11 +1,15 @@
 export class ColorSet {
-  static getColorSet(name) {
+  static getColorSet(nameOrPalette) {
+    if (Array.isArray(nameOrPalette) && nameOrPalette.length > 0) {
+      return nameOrPalette;
+    }
+
     const colorSets = {
       BWR: ['black', 'white', 'red'],
       RGB: ['red', 'green', 'blue'],
       BWR2: ['blue', 'white', 'red']
     };
-    return colorSets[name] || colorSets.BWR;
+    return colorSets[nameOrPalette] || colorSets.BWR;
   }
 }
 

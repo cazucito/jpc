@@ -80,6 +80,11 @@ export class JPPainter {
     const mainTitle = document.getElementById('mainTitle');
     if (!mainTitle) return;
 
+    if (Array.isArray(colorSet)) {
+      mainTitle.innerHTML = '<strong>JPCanvas <span class="white">(Custom)</span></strong>';
+      return;
+    }
+
     let newMainTitle = '';
     switch (colorSet) {
       case 'BWR':

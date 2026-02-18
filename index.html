@@ -57,12 +57,22 @@
       <div class="row justify-content-center">
         <div class="col-md-1">&nbsp;</div>
 
-        <div id="containerCanvas" class="col-md-10 align-self-center"><canvas id="jpcanvas">NOT SUPPORTED</canvas></div>
-<!--        <div class="col-md-2 text-light  flex-grow-1 flex-fill">Choose three color<br>
-          <input type="checkbox" value="B-W-R"> B-W-R<br>
-          <input type="checkbox" value="B-W-R"> B-W-R<br>
-          <input type="checkbox" value="B-W-R"> B-W-R
-        </div>-->
+        <div id="containerCanvas" class="col-md-8 align-self-center"><canvas id="jpcanvas">NOT SUPPORTED</canvas></div>
+        <div class="col-md-2 text-light flex-grow-1 flex-fill custom-colors-panel">
+          <h6 class="mb-3">Custom colors</h6>
+          <form id="custom-color-form">
+            <label class="small d-block mb-2">Color 1
+              <input type="color" id="custom-color-1" value="#000000" class="form-control form-control-sm">
+            </label>
+            <label class="small d-block mb-2">Color 2
+              <input type="color" id="custom-color-2" value="#ffffff" class="form-control form-control-sm">
+            </label>
+            <label class="small d-block mb-3">Color 3
+              <input type="color" id="custom-color-3" value="#ff0000" class="form-control form-control-sm">
+            </label>
+            <button type="submit" class="btn btn-sm btn-outline-light btn-block">Apply custom palette</button>
+          </form>
+        </div>
         <div class="col-md-1">&nbsp;</div>
       </div>
     </section>

@@ -22,6 +22,7 @@ JPCanvas renders abstract paintings by drawing thousands of random lines with co
   - `BWR2` (blue/white/red)
   - `RGB` (red/green/blue)
 - Navbar actions to re-render with different palettes
+- User-defined custom 3-color palette (Issue #5)
 - Performance optimizations to reduce UI freezing:
   - chunked rendering via `requestAnimationFrame`
   - render cancellation when a new draw starts
@@ -72,7 +73,8 @@ npx serve .
 1. Open the page.
 2. The initial painting renders automatically.
 3. Use **Iterations** in the navbar to switch palette mode.
-4. Each selection triggers a fresh render.
+4. Use the **Custom colors** panel to pick 3 colors and apply your own palette.
+5. Each selection triggers a fresh render.
 
 ## Performance notes
 

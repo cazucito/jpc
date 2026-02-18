@@ -1,35 +1,160 @@
-.full {
-  background-color: transparent;
-  padding: 10px;
-  /*height: 300px;*/
-  /*added a height to illustrate*/
+:root {
+  --bg: #0f1218;
+  --panel: #171b23;
+  --panel-soft: #1d2330;
+  --text: #e8edf3;
+  --text-dim: #a4afc0;
+  --accent: #5bc0be;
+  --accent-strong: #79d9d7;
+  --border: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: radial-gradient(1000px 500px at 10% -10%, #1d2635 0%, var(--bg) 55%);
+}
+
+.app-shell {
+  width: min(1160px, 100% - 32px);
+  margin: 20px auto;
+  display: grid;
+  gap: 14px;
+}
+
+.topbar,
+.canvas-card,
+.site-footer {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.topbar {
+  padding: 14px 16px;
   display: flex;
-  /* new */
-  flex-direction: column;
-  /* new */
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
-.black {
-  color: black;
-  text-shadow: 1px 1px 1px #aaa;
+.brand-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
-.blue {
-  color: #0000ff;
-    text-shadow: 1px 1px 1px #aaa;
+.brand-subtitle {
+  margin: 2px 0 0;
+  color: var(--text-dim);
+  font-size: 0.85rem;
 }
 
-.white {
-  color: white;
-    text-shadow: 1px 1px 1px #aaa;
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.red {
-  color: #ff0000;
-    text-shadow: 1px 1px 1px #aaa;
+.chip,
+.btn-regenerate {
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.green {
-  color: #00ff00;
-    text-shadow: 1px 1px 1px #aaa;
+.chip:hover,
+.btn-regenerate:hover {
+  border-color: var(--accent);
+}
+
+.chip.is-active {
+  background: rgba(91, 192, 190, 0.2);
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.btn-regenerate {
+  background: transparent;
+}
+
+.canvas-card {
+  padding: 14px;
+}
+
+.canvas-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.meta-label {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.status-badge {
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: var(--panel-soft);
+}
+
+.status-badge.is-rendering {
+  color: var(--accent-strong);
+  border-color: var(--accent);
+}
+
+.canvas-container {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b0d12;
+}
+
+#jpcanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.site-footer {
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-dim);
+  font-size: 0.83rem;
+}
+
+.site-footer a {
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+.black { color: black; text-shadow: 1px 1px 1px #aaa; }
+.blue { color: #0000ff; text-shadow: 1px 1px 1px #aaa; }
+.white { color: white; text-shadow: 1px 1px 1px #aaa; }
+.red { color: #ff0000; text-shadow: 1px 1px 1px #aaa; }
+.green { color: #00ff00; text-shadow: 1px 1px 1px #aaa; }
+
+@media (max-width: 768px) {
+  .app-shell { width: min(1160px, 100% - 18px); }
+  .topbar { padding: 12px; }
+  .canvas-card { padding: 10px; }
 }

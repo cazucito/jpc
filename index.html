@@ -1,82 +1,48 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/jpc.css" >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/jpc.css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
     <title>JPCanvas</title>
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <a class="navbar-brand text-light" href="#"><span id="mainTitle">JPCanvas</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon">a</span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link text-light" href="#" data-action="render" data-colorset="BWR">Home <span class="sr-only">(current)</span></a>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle  text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                | Iterations
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#" data-action="render" data-colorset="BWR">Iteration 01 (BWR)</a>
-                <a class="dropdown-item" href="#" data-action="render" data-colorset="BWR2">Iteration 02 (BWR2)</a>
-                <a class="dropdown-item" href="#" data-action="render" data-colorset="RGB">Iteration 03 (RGB)</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Experimental 01</a>
-                <a class="dropdown-item" href="#">Experimental 02</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled  text-light" href="#">| Save (soon)</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled  text-light" href="#" tabindex="-1" aria-disabled="true">...</a>
-            </li>
-          </ul>
-          <!--
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>-->
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <h1 id="mainTitle" class="brand-title">JPCanvas</h1>
+          <p class="brand-subtitle">Generative line art</p>
         </div>
-      </nav>
-    </header>
-    <section>
-      <header><h3></h3></header>
-      <div class="row justify-content-center">
-        <div class="col-md-1">&nbsp;</div>
 
-        <div id="containerCanvas" class="col-md-10 align-self-center"><canvas id="jpcanvas">NOT SUPPORTED</canvas></div>
-<!--        <div class="col-md-2 text-light  flex-grow-1 flex-fill">Choose three color<br>
-          <input type="checkbox" value="B-W-R"> B-W-R<br>
-          <input type="checkbox" value="B-W-R"> B-W-R<br>
-          <input type="checkbox" value="B-W-R"> B-W-R
-        </div>-->
-        <div class="col-md-1">&nbsp;</div>
-      </div>
-    </section>
-    <footer>
-      <nav class="navbar fixed-bottom navbar-light bg-dark">
-        <a class="navbar-brand text-light" href="#">&copy; cazucito | 2018-2019</a>
-      </nav>
-    </footer>
+        <nav class="controls" aria-label="Render presets">
+          <button class="chip is-active" type="button" data-action="render" data-colorset="BWR">BWR</button>
+          <button class="chip" type="button" data-action="render" data-colorset="BWR2">BWR2</button>
+          <button class="chip" type="button" data-action="render" data-colorset="RGB">RGB</button>
+          <button class="btn-regenerate" type="button" data-action="regenerate">Regenerate</button>
+        </nav>
+      </header>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <section class="canvas-card" aria-live="polite">
+        <div class="canvas-meta">
+          <span class="meta-label">Status:</span>
+          <span id="render-status" class="status-badge">Ready</span>
+        </div>
+
+        <div id="containerCanvas" class="canvas-container">
+          <canvas id="jpcanvas">NOT SUPPORTED</canvas>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <span>© cazucito</span>
+        <a href="https://github.com/cazucito/jpc" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </footer>
+    </main>
+
     <script type="module" src="js/app.js"></script>
   </body>
 </html>

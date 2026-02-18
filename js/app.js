@@ -39,12 +39,41 @@ function setupCanvas() {
   AppState.ctx = canvas.getContext('2d');
 }
 
+function updateStatus(isRendering) {
+  const badge = document.getElementById('render-status');
+  if (!badge) return;
+
+  if (isRendering) {
+    badge.textContent = 'Rendering...';
+    badge.classList.add('is-rendering');
+    return;
+  }
+
+  badge.textContent = 'Ready';
+  badge.classList.remove('is-rendering');
+}
+
+function setActivePreset(colorSet) {
+  const chips = document.querySelectorAll('[data-action="render"]');
+  chips.forEach((chip) => {
+    chip.classList.toggle('is-active', chip.getAttribute('data-colorset') === colorSet);
+  });
+}
+
 function renderWithDefaults(colorSet) {
+  const palette = colorSet || AppState.lastColorSet || Default.colorSet();
+  updateStatus(true);
+
   JPPainter.createPaintingA(
     AppState.canvas,
     Default.howManyLines(),
-    colorSet || Default.colorSet()
+    palette
   );
+
+  AppState.lastColorSet = palette;
+  setActivePreset(palette);
+
+  window.setTimeout(() => updateStatus(false), 260);
 }
 
 function attachResizeHandler() {
@@ -58,14 +87,21 @@ function attachResizeHandler() {
 }
 
 function attachNavigationHandlers() {
-  const links = document.querySelectorAll('[data-action="render"]');
-  links.forEach((link) => {
-    link.addEventListener('click', (event) => {
+  const renderButtons = document.querySelectorAll('[data-action="render"]');
+  renderButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
       event.preventDefault();
-      const colorSet = link.getAttribute('data-colorset') || Default.colorSet();
+      const colorSet = button.getAttribute('data-colorset') || Default.colorSet();
       renderWithDefaults(colorSet);
     });
   });
+
+  const regenerateButton = document.querySelector('[data-action="regenerate"]');
+  if (regenerateButton) {
+    regenerateButton.addEventListener('click', () => {
+      renderWithDefaults(AppState.lastColorSet || Default.colorSet());
+    });
+  }
 }
 
 export function init() {

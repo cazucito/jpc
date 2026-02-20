@@ -1,20 +1,12 @@
 import { PerformanceConfig } from './config.js';
 import { Util }              from './util.js';
 import { ColorRegistry }     from './color.js';
+import { StrokeTracer }      from './stroke.js';
 
 export class JPPainter {
   static drawLine(ctx, { strokeWidth, color, from, to }) {
     if (!color) return;
-    ctx.beginPath();
-    ctx.lineWidth     = strokeWidth;
-    ctx.strokeStyle   = color;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
-    ctx.shadowBlur    = 1;
-    ctx.shadowColor   = 'gray';
-    ctx.moveTo(from.x, from.y);
-    ctx.lineTo(to.x, to.y);
-    ctx.stroke();
+    StrokeTracer.draw(ctx, { strokeWidth, color, from, to });
   }
 
   static render({ ctx, canvas, totalLines, strokeWidth, colorSet, onComplete, signal }) {

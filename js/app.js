@@ -10,17 +10,9 @@ function setupCanvas() {
   const canvas    = document.getElementById('jpcanvas');
   if (!container || !canvas) return;
 
-  const width   = Math.max(320, container.clientWidth || window.innerWidth || 320);
-  const vHeight = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0);
-  const height  = Math.max(
-    PerformanceConfig.MIN_CANVAS_HEIGHT,
-    Math.min(PerformanceConfig.MAX_CANVAS_HEIGHT, vHeight - PerformanceConfig.CANVAS_VERTICAL_PADDING)
-  );
-
-  container.style.width  = `${width}px`;
-  container.style.height = `${height}px`;
-  canvas.width           = width;
-  canvas.height          = height;
+  // CSS flex controls container size — read actual rendered dimensions
+  canvas.width  = Math.max(320, container.clientWidth);
+  canvas.height = Math.max(PerformanceConfig.MIN_CANVAS_HEIGHT, container.clientHeight);
 
   AppState.canvas = canvas;
   AppState.ctx    = canvas.getContext('2d');
@@ -51,13 +43,19 @@ function render(colorSet) {
 }
 
 function attachResizeHandler() {
-  window.addEventListener('resize', () => {
+  const container = document.getElementById('containerCanvas');
+  if (!container) return;
+
+  let skipFirst = true;
+  new ResizeObserver(() => {
+    // Skip the initial observation fired on attach
+    if (skipFirst) { skipFirst = false; return; }
     clearTimeout(AppState.resizeTimer);
     AppState.resizeTimer = setTimeout(() => {
       setupCanvas();
       render(UserPreferences.colorSet);
     }, PerformanceConfig.RESIZE_DEBOUNCE_MS);
-  });
+  }).observe(container);
 }
 
 function attachNavigationHandlers() {

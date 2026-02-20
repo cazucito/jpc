@@ -25,13 +25,26 @@ export const UI = {
       const btn = document.createElement('button');
       btn.className = name === activeColorSet ? 'chip is-active' : 'chip';
       btn.type = 'button';
-      btn.dataset.action    = 'render';
-      btn.dataset.colorset  = name;
+      btn.dataset.action   = 'render';
+      btn.dataset.colorset = name;
       const colors = ColorRegistry.get(name);
       btn.innerHTML = [...name]
-        .map((char, i) => colors[i] ? `<span class="${colors[i]}">${char}</span>` : char)
+        .map((char, i) => {
+          if (!colors[i]) return char;
+          const isHex = colors[i].startsWith('#');
+          return isHex
+            ? `<span style="color:${colors[i]}">${char}</span>`
+            : `<span class="${colors[i]}">${char}</span>`;
+        })
         .join('');
       nav.insertBefore(btn, regenerateBtn);
+    });
+  },
+
+  syncColorPickers({ customColors }) {
+    ['custom-color-1', 'custom-color-2', 'custom-color-3'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) el.value = customColors[i] ?? '#000000';
     });
   },
 

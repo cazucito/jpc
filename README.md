@@ -83,4 +83,4 @@ npx serve .
 
 ---
 
-**Version: v3.1.1**
+**Version: v3.2.0**

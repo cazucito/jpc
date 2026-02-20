@@ -1,3 +1,5 @@
+import { ColorRegistry } from './color.js';
+
 const TITLE_TEMPLATES = {
   BWR:  "<strong><span class='black'>J</span><span class='white'>P</span><span class='red'>Canvas</span></strong>",
   BWR2: "<strong><span class='blue'>J</span><span class='white'>P</span><span class='red'>Canvas</span></strong>",
@@ -25,7 +27,10 @@ export const UI = {
       btn.type = 'button';
       btn.dataset.action    = 'render';
       btn.dataset.colorset  = name;
-      btn.textContent       = name;
+      const colors = ColorRegistry.get(name);
+      btn.innerHTML = [...name]
+        .map((char, i) => colors[i] ? `<span class="${colors[i]}">${char}</span>` : char)
+        .join('');
       nav.insertBefore(btn, regenerateBtn);
     });
   },

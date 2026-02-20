@@ -10,9 +10,9 @@ function setupCanvas() {
   const canvas    = document.getElementById('jpcanvas');
   if (!container || !canvas) return;
 
-  // CSS flex controls container size — read actual rendered dimensions
-  canvas.width  = Math.max(320, container.clientWidth);
-  canvas.height = Math.max(PerformanceConfig.MIN_CANVAS_HEIGHT, container.clientHeight);
+  // CSS flex + padding controls the container; canvas fills the content area (inside padding)
+  canvas.width  = Math.max(320, canvas.clientWidth);
+  canvas.height = Math.max(PerformanceConfig.MIN_CANVAS_HEIGHT, canvas.clientHeight);
 
   AppState.canvas = canvas;
   AppState.ctx    = canvas.getContext('2d');

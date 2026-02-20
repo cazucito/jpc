@@ -62,13 +62,14 @@ export class BrushTracer extends StrokeTracer {
     const w     = strokeWidth * (0.55 + 0.45 * rand());  // pressure variation
     const alpha = 0.55 + 0.40 * rand();                  // fade-in / fade-out
 
-    // Slight quadratic bow for organic curvature
-    const noise = strokeWidth * 1.5;
+    // Quadratic bow proportional to line length (15% of dist → clearly visible)
+    const dist  = Math.hypot(to.x - from.x, to.y - from.y);
+    const noise = dist * 0.15;
     const cpx   = (from.x + to.x) / 2 + (rand() - 0.5) * noise;
     const cpy   = (from.y + to.y) / 2 + (rand() - 0.5) * noise;
 
-    // Endpoint jitter for edge texture
-    const j  = strokeWidth * 0.15;
+    // Endpoint jitter for edge texture (0.5% of dist, minimum 1 px)
+    const j  = Math.max(strokeWidth * 0.5, dist * 0.005);
     const fx = from.x + (rand() - 0.5) * j;
     const fy = from.y + (rand() - 0.5) * j;
     const tx = to.x   + (rand() - 0.5) * j;
@@ -104,8 +105,10 @@ export class PenTracer extends StrokeTracer {
     const w     = strokeWidth * (0.4 + 0.35 * rand());
     const alpha = 0.75 + 0.20 * rand();
 
-    const cpx = (from.x + to.x) / 2 + (rand() - 0.5) * strokeWidth * 0.5;
-    const cpy = (from.y + to.y) / 2 + (rand() - 0.5) * strokeWidth * 0.5;
+    // Subtle flex: 5% of line length (pluma caligráfica — menos curvatura que el pincel)
+    const dist = Math.hypot(to.x - from.x, to.y - from.y);
+    const cpx  = (from.x + to.x) / 2 + (rand() - 0.5) * dist * 0.05;
+    const cpy  = (from.y + to.y) / 2 + (rand() - 0.5) * dist * 0.05;
 
     ctx.beginPath();
     ctx.lineWidth     = w;
@@ -144,8 +147,9 @@ export class PencilTracer extends StrokeTracer {
       const w        = strokeWidth * (0.25 + 0.45 * envelope);
       const alpha    = 0.30 + 0.35 * rand();
       const j        = strokeWidth * 0.25;
-      const cpx      = (from.x + to.x) / 2 + (rand() - 0.5) * strokeWidth;
-      const cpy      = (from.y + to.y) / 2 + (rand() - 0.5) * strokeWidth;
+      const dist     = Math.hypot(to.x - from.x, to.y - from.y);
+      const cpx      = (from.x + to.x) / 2 + (rand() - 0.5) * dist * 0.08;
+      const cpy      = (from.y + to.y) / 2 + (rand() - 0.5) * dist * 0.08;
 
       ctx.beginPath();
       ctx.lineWidth   = w;

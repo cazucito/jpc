@@ -3,6 +3,7 @@ import { PerformanceConfig } from './config.js';
 import { UserPreferences }   from './preferences.js';
 import { JPPainter }         from './painter.js';
 import { UI }                from './ui.js';
+import { ColorRegistry }     from './color.js';
 
 function setupCanvas() {
   const container = document.getElementById('containerCanvas');
@@ -107,6 +108,11 @@ function attachControlHandlers() {
 export function init() {
   UserPreferences.load();
   setupCanvas();
+  UI.buildPresetChips(
+    document.querySelector('nav.controls'),
+    ColorRegistry.names(),
+    UserPreferences.colorSet
+  );
   UI.syncControls(UserPreferences);
   render(UserPreferences.colorSet);
   attachResizeHandler();

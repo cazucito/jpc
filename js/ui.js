@@ -11,10 +11,23 @@ export const UI = {
   },
 
   setRenderStatus(isRendering) {
-    const badge = document.getElementById('render-status');
-    if (!badge) return;
-    badge.textContent = isRendering ? 'Rendering...' : 'Ready';
-    badge.classList.toggle('is-rendering', isRendering);
+    document.getElementById('render-status')
+      ?.classList.toggle('is-hidden', !isRendering);
+    document.getElementById('containerCanvas')
+      ?.classList.toggle('is-rendering', isRendering);
+  },
+
+  buildPresetChips(nav, names, activeColorSet) {
+    const regenerateBtn = nav.querySelector('[data-action="regenerate"]');
+    names.forEach((name) => {
+      const btn = document.createElement('button');
+      btn.className = name === activeColorSet ? 'chip is-active' : 'chip';
+      btn.type = 'button';
+      btn.dataset.action    = 'render';
+      btn.dataset.colorset  = name;
+      btn.textContent       = name;
+      nav.insertBefore(btn, regenerateBtn);
+    });
   },
 
   setActivePreset(colorSet) {

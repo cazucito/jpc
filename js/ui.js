@@ -11,10 +11,10 @@ export const UI = {
   },
 
   setRenderStatus(isRendering) {
-    const badge = document.getElementById('render-status');
-    if (!badge) return;
-    badge.textContent = isRendering ? 'Rendering...' : 'Ready';
-    badge.classList.toggle('is-rendering', isRendering);
+    document.getElementById('render-status')
+      ?.classList.toggle('is-hidden', !isRendering);
+    document.getElementById('containerCanvas')
+      ?.classList.toggle('is-rendering', isRendering);
   },
 
   buildPresetChips(nav, names, activeColorSet) {

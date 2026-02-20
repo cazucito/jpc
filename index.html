@@ -5,56 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/jpc.css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
     <title>JPCanvas</title>
   </head>
   <body>
     <main class="app-shell">
+
       <header class="topbar">
         <div class="brand-wrap">
           <h1 id="mainTitle" class="brand-title">JPCanvas</h1>
           <p class="brand-subtitle">Generative line art</p>
         </div>
-
         <nav class="controls" aria-label="Render presets">
           <!-- palette chips injected dynamically from ColorRegistry — see js/app.js -->
-          <button class="btn-regenerate" type="button" data-action="regenerate">Regenerate</button>
+          <button class="btn-regenerate" type="button" data-action="regenerate">&#x21BA; Render</button>
         </nav>
       </header>
 
       <section class="canvas-card" aria-live="polite">
-        <div class="canvas-meta">
-          <span class="meta-label">Status:</span>
-          <span id="render-status" class="status-badge">Ready</span>
-        </div>
-
-        <div class="controls-panel" aria-label="Render controls">
-          <label class="control-item">Lines
-            <input id="line-count" type="range" min="2000" max="18000" step="500" value="9000">
-            <span id="line-count-value" class="control-value">9000</span>
-          </label>
-
-          <label class="control-item">Stroke
-            <input id="stroke-width" type="range" min="1" max="4" step="1" value="2">
-            <span id="stroke-width-value" class="control-value">2</span>
-          </label>
-
-          <button id="reset-defaults" type="button" class="btn-reset">Reset defaults</button>
-        </div>
-
         <div id="containerCanvas" class="canvas-container">
           <canvas id="jpcanvas">NOT SUPPORTED</canvas>
+        </div>
+
+        <div class="placard">
+          <div class="placard-meta">
+            <span class="placard-label">Algorithmic composition</span>
+            <span id="render-status" class="status-badge is-hidden">
+              <span class="status-dot"></span>Rendering
+            </span>
+          </div>
+
+          <div class="controls-panel" aria-label="Render controls">
+            <label class="control-item">
+              <span class="control-label">Lines</span>
+              <input id="line-count" type="range" min="2000" max="18000" step="500" value="9000">
+              <span id="line-count-value" class="control-value">9000</span>
+            </label>
+
+            <label class="control-item">
+              <span class="control-label">Stroke</span>
+              <input id="stroke-width" type="range" min="1" max="4" step="1" value="2">
+              <span id="stroke-width-value" class="control-value">2</span>
+            </label>
+
+            <button id="reset-defaults" type="button" class="btn-reset">Reset</button>
+          </div>
         </div>
       </section>
 
       <footer class="site-footer">
-        <span>© cazucito</span>
+        <span>&copy; cazucito</span>
         <a href="https://github.com/cazucito/jpc" target="_blank" rel="noopener noreferrer">GitHub</a>
       </footer>
-    </main>
 
+    </main>
     <script type="module" src="js/app.js"></script>
   </body>
 </html>

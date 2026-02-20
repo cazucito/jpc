@@ -17,6 +17,19 @@ export const UI = {
     badge.classList.toggle('is-rendering', isRendering);
   },
 
+  buildPresetChips(nav, names, activeColorSet) {
+    const regenerateBtn = nav.querySelector('[data-action="regenerate"]');
+    names.forEach((name) => {
+      const btn = document.createElement('button');
+      btn.className = name === activeColorSet ? 'chip is-active' : 'chip';
+      btn.type = 'button';
+      btn.dataset.action    = 'render';
+      btn.dataset.colorset  = name;
+      btn.textContent       = name;
+      nav.insertBefore(btn, regenerateBtn);
+    });
+  },
+
   setActivePreset(colorSet) {
     document.querySelectorAll('[data-action="render"]').forEach((chip) => {
       chip.classList.toggle('is-active', chip.getAttribute('data-colorset') === colorSet);

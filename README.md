@@ -31,17 +31,18 @@ JPCanvas renders abstract paintings by drawing thousands of random lines with co
 ## Project structure
 
 ```
-index.html        — app shell and navigation
+index.html           — app shell and navigation
 js/
-  config.js       — runtime / performance config
-  state.js        — shared app state
-  util.js         — helper utilities
-  color.js        — palette definitions and color selection
-  painter.js      — canvas rendering engine
-  app.js          — ES module entrypoint and orchestration
-  ui.js           — UI helpers (palette chips, frame logic)
+  config.js          — immutable runtime / performance constants
+  preferences.js     — user-adjustable settings with localStorage persistence
+  state.js           — minimal mutable runtime state (canvas, abort controller)
+  util.js            — generic helpers
+  color.js           — extensible palette registry
+  painter.js         — pure canvas rendering engine (no DOM, no global state)
+  app.js             — ES module entrypoint and orchestration
+  ui.js              — DOM updates: title, render status badge, preset chips, controls
 css/
-  jpc.css         — project-specific styles
+  jpc.css            — project-specific styles
 ```
 
 See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full refactor notes.
@@ -82,4 +83,4 @@ npx serve .
 
 ---
 
-**Version: v3.1**
+**Version: v3.1.1**

@@ -21,6 +21,8 @@ export class JPPainter {
     if (!ctx || !canvas) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     let rendered = 0;
     const total  = Math.max(0, Number(totalLines) || 0);

@@ -103,8 +103,20 @@ function attachControlHandlers() {
   });
 }
 
+function attachColorPickerHandlers() {
+  ['custom-color-1', 'custom-color-2', 'custom-color-3'].forEach((id, i) => {
+    document.getElementById(id)?.addEventListener('input', (e) => {
+      UserPreferences.customColors[i] = e.target.value;
+      UserPreferences.save();
+      ColorRegistry.register('CUSTOM', UserPreferences.customColors);
+      render('CUSTOM');
+    });
+  });
+}
+
 export function init() {
   UserPreferences.load();
+  ColorRegistry.register('CUSTOM', UserPreferences.customColors);
   setupCanvas();
   UI.buildPresetChips(
     document.querySelector('nav.controls'),
@@ -112,10 +124,12 @@ export function init() {
     UserPreferences.colorSet
   );
   UI.syncControls(UserPreferences);
+  UI.syncColorPickers(UserPreferences);
   render(UserPreferences.colorSet);
   attachResizeHandler();
   attachNavigationHandlers();
   attachControlHandlers();
+  attachColorPickerHandlers();
 }
 
 document.addEventListener('DOMContentLoaded', init);

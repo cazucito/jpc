@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/jpc.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
     <title>JPCanvas</title>
   </head>
@@ -40,7 +41,7 @@
           <div class="controls-panel" aria-label="Render controls">
             <label class="control-item">
               <span class="control-label">Lines</span>
-              <input id="line-count" type="range" min="2000" max="18000" step="500" value="9000">
+              <input id="line-count" type="range" min="0" max="18000" step="500" value="9000">
               <span id="line-count-value" class="control-value">9000</span>
             </label>
 
@@ -49,6 +50,15 @@
               <input id="stroke-width" type="range" min="1" max="4" step="1" value="2">
               <span id="stroke-width-value" class="control-value">2</span>
             </label>
+
+            <div class="control-item">
+              <span class="control-label">Colors</span>
+              <div class="color-pickers">
+                <input id="custom-color-1" type="color" value="#000000" class="color-picker" title="Color 1">
+                <input id="custom-color-2" type="color" value="#ffffff" class="color-picker" title="Color 2">
+                <input id="custom-color-3" type="color" value="#ff0000" class="color-picker" title="Color 3">
+              </div>
+            </div>
 
             <button id="reset-defaults" type="button" class="btn-reset">Reset</button>
           </div>

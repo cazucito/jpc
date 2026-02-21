@@ -17,6 +17,7 @@
 | `js/state.js` | Minimal mutable runtime state (canvas context, abort controller) |
 | `js/util.js` | Generic helpers |
 | `js/color.js` | Extensible palette registry (`ColorRegistry`) |
+| `js/stroke.js` | Pluggable stroke-tracer engine (`StrokeTracer`, `BrushTracer`, `PenTracer`, `PencilTracer`) |
 | `js/ui.js` | DOM update functions (title, status badge, controls) |
 | `js/painter.js` | Pure canvas rendering engine — no DOM, no global state |
 | `js/app.js` | Bootstrap, canvas sizing, event wiring (orchestrator) |
@@ -68,12 +69,29 @@ ColorRegistry.register('CMY', ['cyan', 'magenta', 'yellow']);
 
 Registered palettes are immediately available to `ColorRegistry.random()`.
 
+## Stroke tracer system
+
+`js/stroke.js` provides a pluggable architecture for line drawing styles:
+
+- **`StrokeTracer`** — base class with a static `draw()` and a `use(TracerClass)` method to swap implementations at runtime.
+- **`BrushTracer`** *(default)* — soft tapered brush using a filled Bézier polygon with sine-envelope width and random alpha.
+- **`PenTracer`** — calligraphic fountain-pen style; nib angle fixed at 45°, thick/thin variation by direction.
+- **`PencilTracer`** — rough graphite effect; two overlapping semi-transparent Bézier layers with independent jitter.
+
+Swap the active tracer from any module:
+
+```js
+import { StrokeTracer, PenTracer } from './js/stroke.js';
+StrokeTracer.use(PenTracer);
+```
+
 ## Event architecture
 
 Navigation and control elements use declarative `data-action` attributes:
 
-- `data-action="render"` + `data-colorset="BWR|BWR2|RGB"`
+- `data-action="render"` + `data-colorset="BWR|BWR2|RGB|CUSTOM"`
 - `data-action="regenerate"`
+- `data-action="reset"`
 
 `app.js` binds all handlers at startup and routes every user action through
 the single `render()` function.

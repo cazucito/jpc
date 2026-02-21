@@ -4,6 +4,25 @@ import { ColorRegistry }     from './color.js';
 import { StrokeTracer }      from './stroke.js';
 
 export class JPPainter {
+  static drawSignature(ctx, canvas) {
+    const size    = Math.max(10, Math.round(canvas.width * 0.022));
+    const margin  = Math.round(size * 1.2);
+    const x       = canvas.width  - margin;
+    const y       = canvas.height - margin;
+
+    ctx.save();
+    ctx.globalAlpha   = 0.30;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowBlur    = 0;
+    ctx.font          = `italic ${size}px 'Playfair Display', Georgia, serif`;
+    ctx.textAlign     = 'right';
+    ctx.textBaseline  = 'bottom';
+    ctx.fillStyle     = '#000000';
+    ctx.fillText('cazucito', x, y);
+    ctx.restore();
+  }
+
   static drawLine(ctx, { strokeWidth, color, from, to }) {
     if (!color) return;
     StrokeTracer.draw(ctx, { strokeWidth, color, from, to });
@@ -40,6 +59,7 @@ export class JPPainter {
       }
 
       if (rendered >= total) {
+        JPPainter.drawSignature(ctx, canvas);
         onComplete?.();
       } else if (!signal?.aborted) {
         requestAnimationFrame(drawChunk);

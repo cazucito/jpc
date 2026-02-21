@@ -11,7 +11,7 @@ export class JPPainter {
     const y       = canvas.height - margin;
 
     ctx.save();
-    ctx.globalAlpha   = 0.30;
+    ctx.globalAlpha   = 0.50;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
     ctx.shadowBlur    = 0;

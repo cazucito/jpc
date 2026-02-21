@@ -9,7 +9,22 @@ const TITLE_TEMPLATES = {
 export const UI = {
   setTitle(colorSet) {
     const el = document.getElementById('mainTitle');
-    if (el) el.innerHTML = TITLE_TEMPLATES[colorSet] ?? '<strong>JPCanvas</strong>';
+    if (!el) return;
+
+    if (TITLE_TEMPLATES[colorSet]) {
+      el.innerHTML = TITLE_TEMPLATES[colorSet];
+      return;
+    }
+
+    // Dynamic title for palettes without a fixed template (e.g. CUSTOM):
+    // color "J" with colors[0], "P" with colors[1], "Canvas" with colors[2].
+    const colors = ColorRegistry.get(colorSet);
+    const toSpan = (text, c) => {
+      if (!c) return text;
+      const style = c.startsWith('#') ? `style="color:${c}"` : `class="${c}"`;
+      return `<span ${style}>${text}</span>`;
+    };
+    el.innerHTML = `<strong>${toSpan('J', colors[0])}${toSpan('P', colors[1])}${toSpan('Canvas', colors[2])}</strong>`;
   },
 
   setRenderStatus(isRendering) {

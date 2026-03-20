@@ -103,6 +103,13 @@ function attachControlHandlers() {
   });
 }
 
+function attachDownloadHandler() {
+  const downloadBtn = document.getElementById('download-art');
+  downloadBtn?.addEventListener('click', () => {
+    UI.downloadCanvas(AppState.canvas);
+  });
+}
+
 function attachColorPickerHandlers() {
   ['custom-color-1', 'custom-color-2', 'custom-color-3'].forEach((id, i) => {
     document.getElementById(id)?.addEventListener('input', (e) => {

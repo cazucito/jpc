@@ -350,6 +350,26 @@ body {
   color: var(--gold);
 }
 
+.btn-download {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: var(--r);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  align-self: stretch;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-download:hover {
+  background: var(--gold);
+  color: #faf7f1;
+}
+
 /* ── Footer ── */
 .site-footer {
   padding: 10px 2px;

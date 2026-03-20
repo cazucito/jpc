@@ -69,6 +69,21 @@ export const UI = {
     });
   },
 
+  downloadCanvas(canvas) {
+    if (!canvas) return;
+    
+    const timestamp = new Date().toISOString()
+      .replace(/[-:T]/g, '').slice(0, 14);
+    const filename = `jpc-${timestamp}.png`;
+    
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  },
+
   syncControls({ lines, stroke }) {
     const lineInput   = document.getElementById('line-count');
     const lineValue   = document.getElementById('line-count-value');

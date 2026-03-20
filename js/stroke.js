@@ -270,9 +270,9 @@ export class SprayTracer extends StrokeTracer {
     const dist = Math.hypot(to.x - from.x, to.y - from.y);
     if (dist < 1) return;
 
-    // Spray parameters
+    // Spray parameters (capped for performance)
     const sprayRadius = strokeWidth * (2.5 + 1.5 * rand());  // spray cloud radius
-    const density = Math.floor(dist * 0.8) + 20;  // particles based on distance
+    const density = Math.min(60, Math.floor(dist * 0.15) + 8);  // capped particles
     const alphaBase = 0.15 + 0.15 * rand();  // base alpha for particles
 
     ctx.fillStyle = color;

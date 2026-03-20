@@ -471,6 +471,32 @@ body {
   border-color: var(--gold);
 }
 
+/* Engine selector */
+.engine-select {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--r);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.engine-select:hover,
+.engine-select:focus {
+  border-color: var(--gold);
+}
+
+.engine-select option {
+  background: var(--panel);
+  color: var(--text);
+}
+
 /* ── Palette color classes (chip letters + page title) ── */
 /* Calibradas para fondo claro — cada color legible sobre crema */
 .black { color: #1c1914; }   /* casi negro */

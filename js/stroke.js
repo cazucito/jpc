@@ -201,3 +201,55 @@ export class PencilTracer extends StrokeTracer {
     ctx.globalAlpha = 1;
   }
 }
+
+// ── MarkerTracer ─────────────────────────────────────────────────────────────
+
+/**
+ * Permanent marker stroke with variable width and ink bleed.
+ *
+ * Simulates a felt-tip marker on paper:
+ * - Variable width based on "velocity" (faster = thinner stroke)
+ * - Ink "bleed" effect using shadowBlur for soft edges
+ * - Reduced alpha for marker-like transparency
+ * - Slight randomization for organic feel
+ */
+export class MarkerTracer extends StrokeTracer {
+  static draw(ctx, { strokeWidth, color, from, to }) {
+    const dist = Math.hypot(to.x - from.x, to.y - from.y);
+    if (dist < 1) return;
+
+    // "Velocity" factor: longer strokes = drawn faster = thinner
+    // Normalized: 0 (slow/short) to 1 (fast/long)
+    const velocity = Math.min(1, dist / 400);
+    
+    // Width varies by velocity: fast strokes are 60-90% of nominal width
+    const velocityFactor = 0.6 + 0.3 * (1 - velocity);
+    const w = strokeWidth * velocityFactor * (0.9 + 0.2 * rand());
+    
+    // Alpha: markers are semi-transparent (0.55-0.75)
+    const alpha = 0.55 + 0.20 * rand();
+
+    // Curved path with slight bow
+    const cpx = (from.x + to.x) / 2 + (rand() - 0.5) * dist * 0.10;
+    const cpy = (from.y + to.y) / 2 + (rand() - 0.5) * dist * 0.10;
+
+    ctx.beginPath();
+    ctx.lineWidth     = w;
+    ctx.strokeStyle   = color;
+    ctx.globalAlpha   = alpha;
+    
+    // Ink bleed effect: soft shadow simulates marker soaking into paper
+    ctx.shadowColor   = color;
+    ctx.shadowBlur    = w * 0.8;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    
+    ctx.moveTo(from.x, from.y);
+    ctx.quadraticCurveTo(cpx, cpy, to.x, to.y);
+    ctx.stroke();
+    
+    // Reset shadow for next stroke
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
+  }
+}

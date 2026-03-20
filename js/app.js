@@ -4,7 +4,7 @@ import { UserPreferences }   from './preferences.js';
 import { JPPainter }         from './painter.js';
 import { UI }                from './ui.js';
 import { ColorRegistry }     from './color.js';
-import { StrokeTracer, BrushTracer, PenTracer, PencilTracer } from './stroke.js';
+import { StrokeTracer, BrushTracer, PenTracer, PencilTracer, MarkerTracer } from './stroke.js';
 import { deserializeFromUrl, updateBrowserUrl } from './urlParams.js';
 
 function setupCanvas() {
@@ -131,11 +131,22 @@ function applyStrokeEngine() {
     brush: BrushTracer,
     pen: PenTracer,
     pencil: PencilTracer,
+    marker: MarkerTracer,
   };
   const Engine = engineMap[UserPreferences.engine];
   if (Engine) {
     StrokeTracer.use(Engine);
   }
+}
+
+function attachEngineHandler() {
+  const engineSelect = document.getElementById('stroke-engine');
+  engineSelect?.addEventListener('change', () => {
+    UserPreferences.engine = engineSelect.value;
+    UserPreferences.save();
+    applyStrokeEngine();
+    render(UserPreferences.colorSet);
+  });
 }
 
 function attachColorPickerHandlers() {
@@ -174,6 +185,7 @@ export function init() {
   attachResizeHandler();
   attachNavigationHandlers();
   attachControlHandlers();
+  attachEngineHandler();
   attachDownloadHandler();
   attachShareHandler();
   attachColorPickerHandlers();

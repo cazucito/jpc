@@ -115,15 +115,17 @@ export const UI = {
     }, duration);
   },
 
-  syncControls({ lines, stroke }) {
+  syncControls({ lines, stroke, engine }) {
     const lineInput   = document.getElementById('line-count');
     const lineValue   = document.getElementById('line-count-value');
     const strokeInput = document.getElementById('stroke-width');
     const strokeValue = document.getElementById('stroke-width-value');
+    const engineSelect = document.getElementById('stroke-engine');
 
     if (lineInput)   lineInput.value            = String(lines);
     if (lineValue)   lineValue.textContent       = String(lines);
     if (strokeInput) strokeInput.value           = String(stroke);
     if (strokeValue) strokeValue.textContent     = String(stroke);
+    if (engineSelect) engineSelect.value         = engine || 'brush';
   },
 };

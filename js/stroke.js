@@ -268,16 +268,16 @@ export class MarkerTracer extends StrokeTracer {
 export class SprayTracer extends StrokeTracer {
   static draw(ctx, { strokeWidth, color, from, to }) {
     const dist = Math.hypot(to.x - from.x, to.y - from.y);
-    if (dist < 1) return;
+    if (dist < 5) return;  // Skip very short strokes
 
-    // Spray parameters (capped for performance)
-    const sprayRadius = strokeWidth * (2.5 + 1.5 * rand());  // spray cloud radius
-    const density = Math.min(60, Math.floor(dist * 0.15) + 8);  // capped particles
-    const alphaBase = 0.15 + 0.15 * rand();  // base alpha for particles
+    // Spray parameters (aggressively capped for performance)
+    const sprayRadius = strokeWidth * 2;  // reduced radius
+    const density = Math.min(12, Math.floor(dist * 0.08) + 4);  // max 12 particles
+    const alphaBase = 0.25 + 0.20 * rand();  // slightly higher alpha for visibility
 
     ctx.fillStyle = color;
-    ctx.shadowColor = color;
-    ctx.shadowBlur = strokeWidth * 0.5;
+    // Remove shadow for performance - use larger particles instead
+    ctx.shadowBlur = 0;
 
     // Spray particles along the line
     for (let i = 0; i < density; i++) {
@@ -299,7 +299,7 @@ export class SprayTracer extends StrokeTracer {
       const distFactor = 1 - (radius / sprayRadius);
       const alpha = alphaBase * (0.5 + 0.5 * distFactor) * (0.7 + 0.3 * rand());
 
-      const particleSize = (strokeWidth * 0.15) * (0.5 + rand());
+      const particleSize = (strokeWidth * 0.4) * (0.6 + rand() * 0.4);  // larger particles
 
       ctx.globalAlpha = alpha;
       ctx.beginPath();
@@ -307,8 +307,6 @@ export class SprayTracer extends StrokeTracer {
       ctx.fill();
     }
 
-    // Reset
     ctx.globalAlpha = 1;
-    ctx.shadowBlur = 0;
   }
 }

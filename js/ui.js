@@ -85,19 +85,29 @@ export const UI = {
     document.body.removeChild(link);
   },
 
-  syncControls({ lines, stroke }) {
-    const lineInput   = document.getElementById('line-count');
-    const lineValue   = document.getElementById('line-count-value');
-    const strokeInput = document.getElementById('stroke-width');
-    const strokeValue = document.getElementById('stroke-width-value');
-
-    if (lineInput)   lineInput.value            = String(lines);
-    if (lineValue)   lineValue.textContent       = String(lines);
-    if (strokeInput) strokeInput.value           = String(stroke);
-    if (strokeValue) strokeValue.textContent     = String(stroke);
+  async shareConfig(onSuccess, onError) {
+    const success = await copyShareUrl();
+    if (success && onSuccess) {
+      onSuccess();
+    } else if (!success && onError) {
+      onError();
+    }
+    return success;
   },
-};
-  });
+
+  showToast(message, duration = 2000) {
+    const existing = document.querySelector('.jpc-toast');
+    if (existing) existing.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'jpc-toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    // Trigger animation
+    requestAnimationFrame(() => {
+      toast.classList.add('is-visible');
+    });
     
     setTimeout(() => {
       toast.classList.remove('is-visible');

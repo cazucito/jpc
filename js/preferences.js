@@ -1,8 +1,8 @@
 const STORAGE_KEY = 'jpc_render_preferences_v1';
 
 export const DEFAULTS = Object.freeze({
-  lines:        9000,
-  stroke:       2,
+  lines:        6000,
+  stroke:       3,
   colorSet:     'BWR',
   customColors: ['#000000', '#ffffff', '#ff0000'],
   engine:       'brush',
@@ -46,11 +46,11 @@ export const UserPreferences = {
   },
 
   randomize(availablePalettes, availableEngines) {
-    // Random lines: 1000 to 15000, step 500
-    this.lines = Math.floor((1000 + Math.random() * 14000) / 500) * 500;
+    // Random lines: 1000 to 12000, step 250
+    this.lines = Math.floor((1000 + Math.random() * 11000) / 250) * 250;
     
-    // Random stroke: 1 to 4
-    this.stroke = Math.floor(1 + Math.random() * 4);
+    // Random stroke: 1 to 6
+    this.stroke = Math.floor(1 + Math.random() * 6);
     
     // Random palette (exclude CUSTOM for simplicity)
     const palettes = availablePalettes.filter(p => p !== 'CUSTOM');

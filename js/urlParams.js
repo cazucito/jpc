@@ -54,16 +54,16 @@ export function deserializeFromUrl() {
     hasChanges = true;
   }
   
-  // Lines (0-18000)
+  // Lines (1000-12000)
   const lines = parseInt(params.get('l'), 10);
-  if (Number.isFinite(lines) && lines >= 0 && lines <= 18000) {
+  if (Number.isFinite(lines) && lines >= 1000 && lines <= 12000) {
     UserPreferences.lines = lines;
     hasChanges = true;
   }
   
-  // Stroke width (1-4)
+  // Stroke width (1-6)
   const stroke = parseInt(params.get('s'), 10);
-  if (Number.isFinite(stroke) && stroke >= 1 && stroke <= 4) {
+  if (Number.isFinite(stroke) && stroke >= 1 && stroke <= 6) {
     UserPreferences.stroke = stroke;
     hasChanges = true;
   }

@@ -12,7 +12,7 @@
 import { UserPreferences } from './preferences.js';
 import { ColorRegistry } from './color.js';
 
-const VALID_ENGINES = ['brush', 'pen', 'pencil', 'marker', 'spray'];
+const VALID_ENGINES = ['brush', 'pen', 'pencil', 'marker'];
 const VALID_PALETTES = ['BWR', 'BWR2', 'RGB', 'CUSTOM'];
 
 /**

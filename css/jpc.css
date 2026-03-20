@@ -554,6 +554,32 @@ body {
   border-color: var(--gold);
 }
 
+.btn-random {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: #ffffff;
+  border-radius: var(--r);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  align-self: stretch;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-random:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-random:active {
+  transform: translateY(0);
+}
+
 /* Toast notification */
 .jpc-toast {
   position: fixed;

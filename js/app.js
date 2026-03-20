@@ -97,6 +97,30 @@ function attachControlHandlers() {
   resetBtn?.addEventListener('click', () => {
     UserPreferences.reset();
     UI.syncControls(UserPreferences);
+    ColorRegistry.register('CUSTOM', UserPreferences.customColors);
+    UI.setActivePreset(UserPreferences.colorSet);
+    applyStrokeEngine();
+    render(UserPreferences.colorSet);
+  });
+}
+
+function attachRandomizeHandler() {
+  const randomBtn = document.getElementById('randomize-config');
+  randomBtn?.addEventListener('click', () => {
+    const palettes = ColorRegistry.names();
+    const engines = ['brush', 'pen', 'pencil', 'marker', 'charcoal'];
+    
+    UserPreferences.randomize(palettes, engines);
+    
+    // Update UI
+    UI.syncControls(UserPreferences);
+    ColorRegistry.register('CUSTOM', UserPreferences.customColors);
+    UI.setActivePreset(UserPreferences.colorSet);
+    applyStrokeEngine();
+    
+    // Show toast
+    UI.showToast(`Random: ${UserPreferences.colorSet} · ${UserPreferences.lines} lines · ${UserPreferences.engine}`);
+    
     render(UserPreferences.colorSet);
   });
 }
@@ -184,6 +208,7 @@ export function init() {
   attachNavigationHandlers();
   attachControlHandlers();
   attachEngineHandler();
+  attachRandomizeHandler();
   attachDownloadHandler();
   attachShareHandler();
   attachColorPickerHandlers();

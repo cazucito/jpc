@@ -44,4 +44,28 @@ export const UserPreferences = {
     this.engine       = DEFAULTS.engine;
     this.save();
   },
+
+  randomize(availablePalettes, availableEngines) {
+    // Random lines: 1000 to 15000, step 500
+    this.lines = Math.floor((1000 + Math.random() * 14000) / 500) * 500;
+    
+    // Random stroke: 1 to 4
+    this.stroke = Math.floor(1 + Math.random() * 4);
+    
+    // Random palette (exclude CUSTOM for simplicity)
+    const palettes = availablePalettes.filter(p => p !== 'CUSTOM');
+    this.colorSet = palettes[Math.floor(Math.random() * palettes.length)];
+    
+    // Random engine
+    this.engine = availableEngines[Math.floor(Math.random() * availableEngines.length)];
+    
+    // Random custom colors (just in case)
+    this.customColors = [
+      '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
+      '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
+      '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'),
+    ];
+    
+    this.save();
+  },
 };

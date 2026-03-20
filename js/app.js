@@ -136,6 +136,7 @@ export function init() {
   attachResizeHandler();
   attachNavigationHandlers();
   attachControlHandlers();
+  attachDownloadHandler();
   attachColorPickerHandlers();
 }
 

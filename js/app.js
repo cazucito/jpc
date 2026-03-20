@@ -67,10 +67,6 @@ function attachNavigationHandlers() {
       render(btn.getAttribute('data-colorset') ?? UserPreferences.colorSet);
     });
   });
-
-  document.querySelector('[data-action="regenerate"]')?.addEventListener('click', () => {
-    render(UserPreferences.colorSet);
-  });
 }
 
 function attachControlHandlers() {
@@ -181,6 +177,7 @@ export function init() {
   );
   UI.syncControls(UserPreferences);
   UI.syncColorPickers(UserPreferences);
+  UI.setActivePreset(UserPreferences.colorSet);
   render(UserPreferences.colorSet);
   attachResizeHandler();
   attachNavigationHandlers();

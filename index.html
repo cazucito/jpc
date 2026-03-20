@@ -21,8 +21,14 @@
         </div>
         <nav class="controls" aria-label="Render presets">
           <!-- palette chips injected dynamically from ColorRegistry — see js/app.js -->
-          <button class="btn-regenerate" type="button" data-action="regenerate">&#x21BA; Render</button>
         </nav>
+        <div id="custom-colors-panel" class="custom-colors-panel">
+          <div class="color-pickers">
+            <input id="custom-color-1" type="color" value="#000000" class="color-picker" title="Color 1">
+            <input id="custom-color-2" type="color" value="#ffffff" class="color-picker" title="Color 2">
+            <input id="custom-color-3" type="color" value="#ff0000" class="color-picker" title="Color 3">
+          </div>
+        </div>
       </header>
 
       <section class="canvas-card" aria-live="polite">
@@ -60,15 +66,6 @@
                 <option value="marker">Marker</option>
               </select>
             </label>
-
-            <div class="control-item">
-              <span class="control-label">Colors</span>
-              <div class="color-pickers">
-                <input id="custom-color-1" type="color" value="#000000" class="color-picker" title="Color 1">
-                <input id="custom-color-2" type="color" value="#ffffff" class="color-picker" title="Color 2">
-                <input id="custom-color-3" type="color" value="#ff0000" class="color-picker" title="Color 3">
-              </div>
-            </div>
 
             <button id="reset-defaults" type="button" class="btn-reset">Reset</button>
             <button id="download-art" type="button" class="btn-download" title="Descargar obra como PNG">&#x2193; Download</button>

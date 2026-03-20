@@ -123,6 +123,29 @@ body {
   gap: 8px;
 }
 
+/* ── Custom colors panel ── */
+.custom-colors-panel {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background: var(--panel-soft);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--r);
+}
+
+.custom-colors-panel.is-visible {
+  display: flex;
+}
+
+.custom-colors-panel .color-pickers {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .chip {
   padding: 6px 16px;
   background: var(--panel);

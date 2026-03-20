@@ -68,6 +68,12 @@ export const UI = {
     document.querySelectorAll('[data-action="render"]').forEach((chip) => {
       chip.classList.toggle('is-active', chip.getAttribute('data-colorset') === colorSet);
     });
+    
+    // Show/hide custom colors panel
+    const customPanel = document.getElementById('custom-colors-panel');
+    if (customPanel) {
+      customPanel.classList.toggle('is-visible', colorSet === 'CUSTOM');
+    }
   },
 
   downloadCanvas(canvas) {

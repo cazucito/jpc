@@ -1,7 +1,13 @@
 const PALETTES = new Map([
   ['BWR',  ['black', 'white', 'red']],
-  ['BWR2', ['blue',  'white', 'red']],
-  ['RGB',  ['red',   'green', 'blue']],
+  ['POLLOCK', ['black', 'white', '#333333']],  // B&W para Jackson Pollock
+  ['SUNSET', ['#FF6B35', '#F7931E', '#FFD23F']],  // Naranja, ámbar, amarillo cálido
+  ['OCEAN',  ['#006BA6', '#0496FF', '#87CEEB']],  // Azules profundos a cielo
+  ['FOREST', ['#2D5016', '#538D22', '#73A942']],  // Verdes bosque
+  ['NEON',   ['#FF00FF', '#00FFFF', '#FFFF00']],  // Magenta, cian, amarillo neón
+  ['GOLDEN', ['#B8860B', '#DAA520', '#FFD700']],  // Dorados
+  ['PASTEL', ['#FFB3BA', '#BAFFC9', '#BAE1FF']],  // Rosa, menta, azul pastel
+  ['WINE',   ['#722F37', '#9B2335', '#C41E3A']],  // Tonos vino/borgoña
 ]);
 
 export const ColorRegistry = {

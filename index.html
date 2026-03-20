@@ -19,22 +19,24 @@
           <h1 id="mainTitle" class="brand-title">JPCanvas</h1>
           <p class="brand-subtitle">Generative line art</p>
         </div>
-        <nav class="controls" aria-label="Render presets">
-          <!-- palette chips injected dynamically from ColorRegistry — see js/app.js -->
-        </nav>
-        <div id="custom-colors-panel" class="custom-colors-panel">
-          <div class="color-pickers">
-            <div class="color-picker-wrapper">
-              <input id="custom-color-1" type="color" value="#000000" class="color-picker" title="Primary">
-              <span class="color-label">Primary</span>
-            </div>
-            <div class="color-picker-wrapper">
-              <input id="custom-color-2" type="color" value="#ffffff" class="color-picker" title="Secondary">
-              <span class="color-label">Secondary</span>
-            </div>
-            <div class="color-picker-wrapper">
-              <input id="custom-color-3" type="color" value="#ff0000" class="color-picker" title="Accent">
-              <span class="color-label">Accent</span>
+        <div class="palette-section">
+          <nav class="controls" aria-label="Render presets">
+            <!-- palette chips injected dynamically from ColorRegistry — see js/app.js -->
+          </nav>
+          <div id="custom-colors-panel" class="custom-colors-panel">
+            <div class="color-pickers">
+              <div class="color-picker-wrapper">
+                <input id="custom-color-1" type="color" value="#000000" class="color-picker" title="Primary">
+                <span class="color-label">Primary</span>
+              </div>
+              <div class="color-picker-wrapper">
+                <input id="custom-color-2" type="color" value="#ffffff" class="color-picker" title="Secondary">
+                <span class="color-label">Secondary</span>
+              </div>
+              <div class="color-picker-wrapper">
+                <input id="custom-color-3" type="color" value="#ff0000" class="color-picker" title="Accent">
+                <span class="color-label">Accent</span>
+              </div>
             </div>
           </div>
         </div>

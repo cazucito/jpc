@@ -89,9 +89,18 @@ body {
     width: 100%;
   }
   
+  .palette-section {
+    align-items: center;
+    width: 100%;
+  }
+  
   .controls {
     width: 100%;
     justify-content: center;
+  }
+  
+  .custom-colors-panel {
+    align-self: center;
   }
 }
 
@@ -114,11 +123,19 @@ body {
   color: var(--text-dim);
 }
 
+/* ── Palette section ── */
+.palette-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
 /* ── Palette chips ── */
 .controls {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
   padding: 12px 0;
@@ -211,8 +228,9 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  margin-top: 16px;
-  padding: 20px 28px;
+  margin-top: 8px;
+  margin-right: 0;
+  padding: 16px 24px;
   background: linear-gradient(145deg, var(--panel) 0%, var(--panel-soft) 100%);
   border: 1px solid var(--panel-border);
   border-radius: 12px;
@@ -220,6 +238,7 @@ body {
     0 4px 20px rgba(0, 0, 0, 0.06),
     0 1px 3px rgba(0, 0, 0, 0.04);
   position: relative;
+  align-self: flex-end;
 }
 
 .custom-colors-panel.is-visible {

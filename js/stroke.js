@@ -253,3 +253,63 @@ export class MarkerTracer extends StrokeTracer {
     ctx.globalAlpha = 1;
   }
 }
+
+// ── CharcoalTracer ───────────────────────────────────────────────────────────
+
+/**
+ * Charcoal / chalk stroke with grainy texture.
+ *
+ * Simulates drawing with charcoal or chalk on textured paper:
+ * - Rough, grainy edges
+ * - Multiple overlapping strokes for depth
+ * - Slight jitter for organic feel
+ * - Lower alpha for dusty appearance
+ */
+export class CharcoalTracer extends StrokeTracer {
+  static draw(ctx, { strokeWidth, color, from, to }) {
+    const dist = Math.hypot(to.x - from.x, to.y - from.y);
+    if (dist < 1) return;
+
+    // Draw 3 overlapping strokes with jitter for grainy effect
+    const strokes = 3;
+    const baseAlpha = 0.35;
+
+    for (let i = 0; i < strokes; i++) {
+      // Varying width per stroke
+      const w = strokeWidth * (0.8 + 0.4 * rand());
+      const alpha = baseAlpha * (0.7 + 0.3 * rand());
+
+      // Jitter amount based on stroke width
+      const jitter = strokeWidth * 0.3;
+
+      // Control point with randomness
+      const cpx = (from.x + to.x) / 2 + (rand() - 0.5) * dist * 0.1 + (rand() - 0.5) * jitter;
+      const cpy = (from.y + to.y) / 2 + (rand() - 0.5) * dist * 0.1 + (rand() - 0.5) * jitter;
+
+      // Jittered start/end points
+      const jx1 = from.x + (rand() - 0.5) * jitter;
+      const jy1 = from.y + (rand() - 0.5) * jitter;
+      const jx2 = to.x + (rand() - 0.5) * jitter;
+      const jy2 = to.y + (rand() - 0.5) * jitter;
+
+      ctx.beginPath();
+      ctx.lineWidth = w;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = alpha;
+
+      // Rough edges using dash pattern
+      ctx.setLineDash([w * 1.5, w * 0.5]);
+      ctx.lineDashOffset = rand() * w;
+
+      ctx.moveTo(jx1, jy1);
+      ctx.quadraticCurveTo(cpx, cpy, jx2, jy2);
+      ctx.stroke();
+    }
+
+    // Reset
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+  }
+}

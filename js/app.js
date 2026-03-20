@@ -4,7 +4,7 @@ import { UserPreferences }   from './preferences.js';
 import { JPPainter }         from './painter.js';
 import { UI }                from './ui.js';
 import { ColorRegistry }     from './color.js';
-import { StrokeTracer, BrushTracer, PenTracer, PencilTracer, MarkerTracer } from './stroke.js';
+import { StrokeTracer, BrushTracer, PenTracer, PencilTracer, MarkerTracer, CharcoalTracer } from './stroke.js';
 import { deserializeFromUrl, updateBrowserUrl } from './urlParams.js';
 
 function setupCanvas() {
@@ -128,6 +128,7 @@ function applyStrokeEngine() {
     pen: PenTracer,
     pencil: PencilTracer,
     marker: MarkerTracer,
+    charcoal: CharcoalTracer,
   };
   const Engine = engineMap[UserPreferences.engine];
   if (Engine) {

@@ -253,3 +253,62 @@ export class MarkerTracer extends StrokeTracer {
     ctx.globalAlpha = 1;
   }
 }
+
+// ── SprayTracer ──────────────────────────────────────────────────────────────
+
+/**
+ * Aerosol spray paint stroke with dispersed particles.
+ *
+ * Simulates a spray can or airbrush:
+ * - Scattered particles along the stroke path
+ * - Density and radius configurable
+ * - Soft edges with alpha falloff from center
+ * - Random distribution for organic feel
+ */
+export class SprayTracer extends StrokeTracer {
+  static draw(ctx, { strokeWidth, color, from, to }) {
+    const dist = Math.hypot(to.x - from.x, to.y - from.y);
+    if (dist < 1) return;
+
+    // Spray parameters
+    const sprayRadius = strokeWidth * (2.5 + 1.5 * rand());  // spray cloud radius
+    const density = Math.floor(dist * 0.8) + 20;  // particles based on distance
+    const alphaBase = 0.15 + 0.15 * rand();  // base alpha for particles
+
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = strokeWidth * 0.5;
+
+    // Spray particles along the line
+    for (let i = 0; i < density; i++) {
+      // Position along the stroke (with slight curve)
+      const t = rand();
+      const cpx = (from.x + to.x) / 2 + (rand() - 0.5) * dist * 0.1;
+      const cpy = (from.y + to.y) / 2 + (rand() - 0.5) * dist * 0.1;
+      
+      const bx = (1 - t) * (1 - t) * from.x + 2 * (1 - t) * t * cpx + t * t * to.x;
+      const by = (1 - t) * (1 - t) * from.y + 2 * (1 - t) * t * cpy + t * t * to.y;
+
+      // Random offset from centerline (gaussian-like distribution)
+      const angle = rand() * Math.PI * 2;
+      const radius = sprayRadius * Math.pow(rand(), 0.5);  // square root for even distribution
+      const px = bx + Math.cos(angle) * radius;
+      const py = by + Math.sin(angle) * radius;
+
+      // Alpha based on distance from center (center = more opaque)
+      const distFactor = 1 - (radius / sprayRadius);
+      const alpha = alphaBase * (0.5 + 0.5 * distFactor) * (0.7 + 0.3 * rand());
+
+      const particleSize = (strokeWidth * 0.15) * (0.5 + rand());
+
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.arc(px, py, particleSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Reset
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+  }
+}

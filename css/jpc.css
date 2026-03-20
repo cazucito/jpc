@@ -120,57 +120,153 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  padding: 12px 0;
+  position: relative;
+}
+
+/* Elegant divider line above chips */
+.controls::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold) 20%,
+    var(--gold) 80%,
+    transparent
+  );
+  opacity: 0.4;
+}
+
+.chip {
+  padding: 8px 18px;
+  background: linear-gradient(145deg, var(--panel) 0%, var(--bg) 100%);
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.chip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--gold-soft),
+    var(--gold-bright),
+    var(--gold-soft)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.chip:hover {
+  border-color: var(--gold);
+  box-shadow: 
+    0 4px 12px rgba(160, 116, 42, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.chip:hover::before {
+  opacity: 0.6;
+}
+
+.chip.is-active {
+  border-color: var(--gold);
+  background: linear-gradient(145deg, var(--gold-soft) 0%, var(--panel) 100%);
+  box-shadow: 
+    inset 0 1px 2px rgba(160, 116, 42, 0.2),
+    0 2px 8px rgba(160, 116, 42, 0.12);
+}
+
+.chip.is-active::before {
+  opacity: 1;
 }
 
 /* ── Custom colors panel ── */
 .custom-colors-panel {
   display: none;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  padding: 8px 16px;
-  background: var(--panel-soft);
+  gap: 12px;
+  margin-top: 16px;
+  padding: 20px 28px;
+  background: linear-gradient(145deg, var(--panel) 0%, var(--panel-soft) 100%);
   border: 1px solid var(--panel-border);
-  border-radius: var(--r);
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+  position: relative;
 }
 
 .custom-colors-panel.is-visible {
   display: flex;
+  animation: fadeSlideDown 0.3s ease;
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-colors-panel::before {
+  content: 'Custom Palette';
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
 }
 
 .custom-colors-panel .color-pickers {
   display: flex;
-  gap: 8px;
+  gap: 16px;
   align-items: center;
 }
 
-.chip {
-  padding: 6px 16px;
-  background: var(--panel);
-  border: 1px solid var(--panel-border-hi);
-  border-radius: var(--r);
-  color: var(--text);
+.color-picker-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-label {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s, transform 0.15s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.chip:hover {
-  border-color: var(--gold);
-  background: var(--bg);
-  transform: translateY(-1px);
-}
-
-.chip.is-active {
-  border-color: var(--gold);
-  background: var(--gold-soft);
-  box-shadow: inset 0 1px 0 rgba(160, 116, 42, 0.3), 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 .btn-regenerate {
@@ -512,6 +608,32 @@ body {
 
 .color-picker:hover {
   border-color: var(--gold);
+  transform: scale(1.05);
+}
+
+/* Custom panel color pickers - larger and more elegant */
+.custom-colors-panel .color-picker {
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--panel-border);
+  border-radius: 50%;
+  padding: 3px;
+  background: var(--panel);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.custom-colors-panel .color-picker:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 12px rgba(160, 116, 42, 0.2);
+  transform: scale(1.08);
+}
+
+.custom-colors-panel .color-picker::-webkit-color-swatch-wrapper { padding: 0; }
+.custom-colors-panel .color-picker::-webkit-color-swatch { 
+  border: none; 
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Engine selector */

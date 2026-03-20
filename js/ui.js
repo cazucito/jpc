@@ -1,4 +1,5 @@
 import { ColorRegistry } from './color.js';
+import { copyShareUrl } from './urlParams.js';
 
 const TITLE_TEMPLATES = {
   BWR:  "<strong><span class='black'>J</span><span class='white'>P</span><span class='red'>Canvas</span></strong>",
@@ -82,6 +83,26 @@ export const UI = {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  },
+
+  syncControls({ lines, stroke }) {
+    const lineInput   = document.getElementById('line-count');
+    const lineValue   = document.getElementById('line-count-value');
+    const strokeInput = document.getElementById('stroke-width');
+    const strokeValue = document.getElementById('stroke-width-value');
+
+    if (lineInput)   lineInput.value            = String(lines);
+    if (lineValue)   lineValue.textContent       = String(lines);
+    if (strokeInput) strokeInput.value           = String(stroke);
+    if (strokeValue) strokeValue.textContent     = String(stroke);
+  },
+};
+  });
+    
+    setTimeout(() => {
+      toast.classList.remove('is-visible');
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
   },
 
   syncControls({ lines, stroke }) {

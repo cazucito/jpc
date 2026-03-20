@@ -370,6 +370,57 @@ body {
   color: #faf7f1;
 }
 
+.btn-share {
+  background: transparent;
+  border: 1px solid var(--panel-border);
+  color: var(--text-dim);
+  border-radius: var(--r);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  align-self: stretch;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.btn-share:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn-share.is-copied {
+  background: var(--gold-soft);
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* Toast notification */
+.jpc-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text);
+  color: var(--panel);
+  padding: 12px 24px;
+  border-radius: var(--r);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.jpc-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* ── Footer ── */
 .site-footer {
   padding: 10px 2px;

@@ -5,6 +5,7 @@ export const DEFAULTS = Object.freeze({
   stroke:       2,
   colorSet:     'BWR',
   customColors: ['#000000', '#ffffff', '#ff0000'],
+  engine:       'brush',
 });
 
 export const UserPreferences = {
@@ -12,6 +13,7 @@ export const UserPreferences = {
   stroke:       DEFAULTS.stroke,
   colorSet:     DEFAULTS.colorSet,
   customColors: [...DEFAULTS.customColors],
+  engine:       DEFAULTS.engine,
 
   load() {
     try {
@@ -20,6 +22,7 @@ export const UserPreferences = {
       if (Number.isFinite(data.stroke))                                     this.stroke       = data.stroke;
       if (typeof data.colorSet === 'string')                                this.colorSet     = data.colorSet;
       if (Array.isArray(data.customColors) && data.customColors.length === 3) this.customColors = data.customColors;
+      if (typeof data.engine === 'string')                                  this.engine       = data.engine;
     } catch { /* noop */ }
   },
 
@@ -29,6 +32,7 @@ export const UserPreferences = {
       stroke:       this.stroke,
       colorSet:     this.colorSet,
       customColors: this.customColors,
+      engine:       this.engine,
     }));
   },
 
@@ -37,6 +41,7 @@ export const UserPreferences = {
     this.stroke       = DEFAULTS.stroke;
     this.colorSet     = DEFAULTS.colorSet;
     this.customColors = [...DEFAULTS.customColors];
+    this.engine       = DEFAULTS.engine;
     this.save();
   },
 };

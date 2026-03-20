@@ -4,6 +4,8 @@ import { UserPreferences }   from './preferences.js';
 import { JPPainter }         from './painter.js';
 import { UI }                from './ui.js';
 import { ColorRegistry }     from './color.js';
+import { StrokeTracer, BrushTracer, PenTracer, PencilTracer } from './stroke.js';
+import { deserializeFromUrl, updateBrowserUrl } from './urlParams.js';
 
 function setupCanvas() {
   const container = document.getElementById('containerCanvas');
@@ -110,6 +112,32 @@ function attachDownloadHandler() {
   });
 }
 
+function attachShareHandler() {
+  const shareBtn = document.getElementById('share-config');
+  shareBtn?.addEventListener('click', async () => {
+    const success = await UI.shareConfig(
+      () => {
+        UI.showToast('URL copiada al clipboard');
+        shareBtn.classList.add('is-copied');
+        setTimeout(() => shareBtn.classList.remove('is-copied'), 2000);
+      },
+      () => UI.showToast('Error al copiar URL')
+    );
+  });
+}
+
+function applyStrokeEngine() {
+  const engineMap = {
+    brush: BrushTracer,
+    pen: PenTracer,
+    pencil: PencilTracer,
+  };
+  const Engine = engineMap[UserPreferences.engine];
+  if (Engine) {
+    StrokeTracer.use(Engine);
+  }
+}
+
 function attachColorPickerHandlers() {
   ['custom-color-1', 'custom-color-2', 'custom-color-3'].forEach((id, i) => {
     document.getElementById(id)?.addEventListener('input', (e) => {
@@ -123,7 +151,17 @@ function attachColorPickerHandlers() {
 
 export function init() {
   UserPreferences.load();
+  
+  // URL params override localStorage
+  const hasUrlParams = deserializeFromUrl();
+  if (hasUrlParams) {
+    UserPreferences.save();
+    // Clean URL after reading (optional - keeps URLs clean)
+    // window.history.replaceState({}, '', window.location.pathname);
+  }
+  
   ColorRegistry.register('CUSTOM', UserPreferences.customColors);
+  applyStrokeEngine();
   setupCanvas();
   UI.buildPresetChips(
     document.querySelector('nav.controls'),
@@ -137,7 +175,15 @@ export function init() {
   attachNavigationHandlers();
   attachControlHandlers();
   attachDownloadHandler();
+  attachShareHandler();
   attachColorPickerHandlers();
+  
+  // Update URL when preferences change
+  const originalSave = UserPreferences.save.bind(UserPreferences);
+  UserPreferences.save = function() {
+    originalSave();
+    updateBrowserUrl();
+  };
 }
 
 document.addEventListener('DOMContentLoaded', init);

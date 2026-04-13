@@ -5,6 +5,7 @@ import { JPPainter }         from './painter.js';
 import { UI }                from './ui.js';
 import { ColorRegistry }     from './color.js';
 import { Util }              from './util.js';
+import { workerManager }     from './worker-manager.js';
 import { StrokeTracer, BrushTracer, PenTracer, PencilTracer, MarkerTracer, CharcoalTracer } from './stroke.js';
 import { deserializeFromUrl, updateBrowserUrl } from './urlParams.js';
 
@@ -24,7 +25,7 @@ function setupCanvas() {
 function render(colorSet) {
   const palette = colorSet ?? UserPreferences.colorSet;
 
-  AppState.renderController?.abort();
+  AppState.cancelRender();
   AppState.renderController = new AbortController();
 
   UserPreferences.colorSet = palette;
@@ -34,11 +35,51 @@ function render(colorSet) {
   UI.setTitle(palette);
   UI.setActivePreset(palette);
 
+  // Try Web Worker first for better performance
+  const workerStarted = tryWorkerRender(palette);
+  if (workerStarted) return;
+
+  // Fallback to main thread rendering
+  renderOnMainThread(palette);
+}
+
+function tryWorkerRender(palette) {
+  // Don't use worker for seed-based renders (simpler on main thread)
+  if (UserPreferences.seed !== null) return false;
+  
+  // Don't use worker for animation mode (needs main thread control)
+  if (UserPreferences.animation) return false;
+
+  const success = workerManager.render({
+    canvas: AppState.canvas,
+    totalLines: UserPreferences.lines,
+    strokeWidth: UserPreferences.stroke,
+    colorSet: palette,
+    engine: UserPreferences.engine,
+    seed: null,
+    animation: false,
+    animationSpeed: 5,
+    onProgress: (rendered, total) => {
+      // Optional: update progress indicator
+      // console.log(`Progress: ${rendered}/${total}`);
+    },
+    onComplete: (count) => {
+      UI.setRenderStatus(false);
+    },
+    onError: (error) => {
+      console.error('[App] Worker render failed, falling back:', error);
+      renderOnMainThread(palette);
+    }
+  });
+
+  return success;
+}
+
+function renderOnMainThread(palette) {
   // Use seed if defined for deterministic rendering
   if (UserPreferences.seed !== null) {
     renderWithSeed(AppState.ctx, AppState.canvas, UserPreferences.seed, palette);
     UI.setRenderStatus(false);
-    // Clear seed after use (so next render is random unless another seed is set)
     UserPreferences.seed = null;
     return;
   }
@@ -860,6 +901,13 @@ export function init() {
   UI.syncControls(UserPreferences);
   UI.syncColorPickers(UserPreferences);
   UI.setActivePreset(UserPreferences.colorSet);
+  
+  // Initialize Web Worker for background rendering
+  const workerReady = workerManager.init();
+  if (workerReady) {
+    console.log('[App] Web Worker initialized for background rendering');
+  }
+  
   render(UserPreferences.colorSet);
   attachResizeHandler();
   attachNavigationHandlers();

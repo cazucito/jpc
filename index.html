@@ -9,6 +9,19 @@
     <link rel="stylesheet" href="css/jpc.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Theme Color for Mobile -->
+    <meta name="theme-color" content="#c4984a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="JPCanvas">
+    
+    <!-- Description for SEO -->
+    <meta name="description" content="Create unique generative line art paintings with JPCanvas. 9 color palettes, 5 stroke engines, animation mode, and gallery variations.">
+    
     <title>JPCanvas</title>
   </head>
   <body>
@@ -212,5 +225,20 @@
 
     </main>
     <script type="module" src="js/app.js"></script>
+    
+    <!-- Service Worker Registration for PWA -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/jpc/sw.js')
+            .then((registration) => {
+              console.log('[PWA] Service Worker registered:', registration.scope);
+            })
+            .catch((error) => {
+              console.error('[PWA] Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

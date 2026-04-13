@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background with museum wall color -->
+  <rect width="512" height="512" fill="#f2ede3"/>
+  
+  <!-- Walnut frame outer -->
+  <rect x="32" y="32" width="448" height="448" rx="16" fill="#2d1f0e"/>
+  
+  <!-- Gold fillet -->
+  <rect x="48" y="48" width="416" height="416" rx="12" fill="none" stroke="#c4984a" stroke-width="8"/>
+  
+  <!-- Canvas background -->
+  <rect x="64" y="64" width="384" height="384" rx="4" fill="#ffffff"/>
+  
+  <!-- Abstract lines representing generative art -->
+  <!-- Black line -->
+  <line x1="100" y1="380" x2="400" y2="120" stroke="#1a1a1a" stroke-width="18" stroke-linecap="round" opacity="0.9"/>
+  
+  <!-- Red line -->
+  <line x1="90" y1="200" x2="320" y2="400" stroke="#c42525" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
+  
+  <!-- Another black line -->
+  <line x1="180" y1="100" x2="420" y2="280" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  
+  <!-- White/gray line -->
+  <line x1="120" y1="320" x2="380" y2="180" stroke="#9a8e7e" stroke-width="12" stroke-linecap="round" opacity="0.7"/>
+  
+  <!-- Signature -->
+  <text x="420" y="420" font-family="Georgia, serif" font-size="28" font-style="italic" fill="#1a1a1a" opacity="0.6" text-anchor="end">cazucito</text>
+</svg>

@@ -505,6 +505,163 @@ function attachMobileControlHandlers() {
   });
 }
 
+// ── Mobile Palettes Bottom Sheet ──
+function initMobilePalettesSheet() {
+  const toggleBtn = document.getElementById('mobile-palettes-toggle');
+  const closeBtn = document.getElementById('close-palettes-sheet');
+  const sheet = document.getElementById('mobile-palettes-sheet');
+  const grid = document.getElementById('mobile-palettes-grid');
+  
+  if (!toggleBtn || !sheet || !grid) return;
+
+  function buildPalettesGrid() {
+    grid.innerHTML = '';
+    const palettes = ColorRegistry.names();
+    
+    palettes.forEach(name => {
+      const colors = ColorRegistry.get(name);
+      const item = document.createElement('button');
+      item.className = 'mobile-palette-item';
+      item.type = 'button';
+      item.dataset.palette = name;
+      item.setAttribute('aria-label', `Select ${name} palette`);
+      
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'mobile-palette-name';
+      nameSpan.textContent = name;
+      
+      const preview = document.createElement('div');
+      preview.className = 'mobile-palette-preview';
+      
+      colors.forEach(color => {
+        const dot = document.createElement('span');
+        dot.className = 'mobile-palette-dot';
+        dot.style.backgroundColor = color;
+        preview.appendChild(dot);
+      });
+      
+      item.appendChild(nameSpan);
+      item.appendChild(preview);
+      
+      item.addEventListener('click', () => {
+        grid.querySelectorAll('.mobile-palette-item').forEach(el => {
+          el.classList.remove('is-active');
+        });
+        item.classList.add('is-active');
+        render(name);
+        closeSheet();
+      });
+      
+      grid.appendChild(item);
+    });
+    
+    updateActivePalette(UserPreferences.colorSet);
+  }
+
+  function updateActivePalette(activeName) {
+    grid.querySelectorAll('.mobile-palette-item').forEach(item => {
+      item.classList.toggle('is-active', item.dataset.palette === activeName);
+    });
+  }
+
+  const backdrop = sheet.querySelector('.bottom-sheet-backdrop');
+  const handle = sheet.querySelector('.bottom-sheet-handle');
+  let previousActiveElement = null;
+  let previousOverflow = '';
+  
+  const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  
+  function getFocusableElements() {
+    return Array.from(sheet.querySelectorAll(focusableSelectors)).filter(el => 
+      !el.hasAttribute('disabled') && el.offsetParent !== null
+    );
+  }
+
+  function trapFocus(e) {
+    const focusableElements = getFocusableElements();
+    if (focusableElements.length === 0) return;
+    
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.key === 'Tab') {
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }
+  }
+
+  function openSheet() {
+    previousActiveElement = document.activeElement;
+    previousOverflow = document.body.style.overflow;
+    sheet.classList.add('is-open');
+    sheet.setAttribute('aria-hidden', 'false');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    buildPalettesGrid();
+    
+    const focusableElements = getFocusableElements();
+    if (focusableElements.length > 0) {
+      focusableElements[0].focus();
+    }
+    
+    sheet.addEventListener('keydown', trapFocus);
+  }
+
+  function closeSheet() {
+    if (!sheet.classList.contains('is-open') || sheet.getAttribute('aria-hidden') === 'true') {
+      return;
+    }
+    sheet.classList.remove('is-open');
+    sheet.setAttribute('aria-hidden', 'true');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = previousOverflow;
+    sheet.removeEventListener('keydown', trapFocus);
+    
+    if (previousActiveElement) {
+      previousActiveElement.focus();
+    }
+  }
+
+  toggleBtn.addEventListener('click', openSheet);
+  closeBtn?.addEventListener('click', closeSheet);
+  backdrop?.addEventListener('click', closeSheet);
+  
+  handle?.addEventListener('click', closeSheet);
+  handle?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      closeSheet();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sheet.classList.contains('is-open')) {
+      closeSheet();
+    }
+  });
+
+  let touchStartY = 0;
+  handle?.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  handle?.addEventListener('touchmove', (e) => {
+    const touchY = e.touches[0].clientY;
+    if (touchY - touchStartY > 50) {
+      closeSheet();
+    }
+  }, { passive: true });
+
+  buildPalettesGrid();
+  
+  return updateActivePalette;
+}
+
 export function init() {
   UserPreferences.load();
   
@@ -538,6 +695,7 @@ export function init() {
   attachColorPickerHandlers();
   initMobileBottomSheet();
   attachMobileControlHandlers();
+  initMobilePalettesSheet();
   
   // Update URL when preferences change
   const originalSave = UserPreferences.save.bind(UserPreferences);

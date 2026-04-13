@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
       </header>
 
       <!-- Mobile Controls Toggle -->
-      <button id="mobile-controls-toggle" type="button" class="mobile-controls-toggle" aria-label="Abrir controles">
+      <button id="mobile-controls-toggle" type="button" class="mobile-controls-toggle" aria-label="Abrir controles" aria-expanded="false" aria-controls="mobile-bottom-sheet">
         <span class="toggle-icon">⚙️</span>
         <span class="toggle-text">Controles</span>
       </button>
@@ -94,14 +94,14 @@
       </section>
 
       <!-- Mobile Bottom Sheet -->
-      <div id="mobile-bottom-sheet" class="mobile-bottom-sheet">
+      <div id="mobile-bottom-sheet" class="mobile-bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="bottom-sheet-title" aria-hidden="true">
         <div class="bottom-sheet-backdrop"></div>
         <div class="bottom-sheet-content">
-          <div class="bottom-sheet-handle">
+          <div class="bottom-sheet-handle" role="button" tabindex="0" aria-label="Cerrar al deslizar hacia abajo">
             <span class="handle-bar"></span>
           </div>
           <div class="bottom-sheet-header">
-            <h3 class="bottom-sheet-title">Controles</h3>
+            <h3 id="bottom-sheet-title" class="bottom-sheet-title">Controles</h3>
             <button id="close-bottom-sheet" type="button" class="bottom-sheet-close" aria-label="Cerrar">✕</button>
           </div>
           <div class="bottom-sheet-body">

@@ -187,24 +187,84 @@ function initMobileBottomSheet() {
   const closeBtn = document.getElementById('close-bottom-sheet');
   const sheet = document.getElementById('mobile-bottom-sheet');
   const backdrop = sheet?.querySelector('.bottom-sheet-backdrop');
+  const handle = sheet?.querySelector('.bottom-sheet-handle');
+  let previousActiveElement = null;
+  let previousOverflow = '';
   
   if (!toggleBtn || !sheet) return;
 
+  // Focus trap elements
+  const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  
+  function getFocusableElements() {
+    return Array.from(sheet.querySelectorAll(focusableSelectors)).filter(el => 
+      !el.hasAttribute('disabled') && el.offsetParent !== null
+    );
+  }
+
+  function trapFocus(e) {
+    const focusableElements = getFocusableElements();
+    if (focusableElements.length === 0) return;
+    
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.key === 'Tab') {
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }
+  }
+
   // Open sheet
   toggleBtn.addEventListener('click', () => {
+    previousActiveElement = document.activeElement;
+    previousOverflow = document.body.style.overflow;
     sheet.classList.add('is-open');
+    sheet.setAttribute('aria-hidden', 'false');
+    toggleBtn.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
     syncMobileControls();
+    
+    // Focus first focusable element
+    const focusableElements = getFocusableElements();
+    if (focusableElements.length > 0) {
+      focusableElements[0].focus();
+    }
+    
+    // Add focus trap
+    sheet.addEventListener('keydown', trapFocus);
   });
 
   // Close sheet
   const closeSheet = () => {
     sheet.classList.remove('is-open');
-    document.body.style.overflow = '';
+    sheet.setAttribute('aria-hidden', 'true');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = previousOverflow;
+    sheet.removeEventListener('keydown', trapFocus);
+    
+    // Return focus to toggle button
+    if (previousActiveElement) {
+      previousActiveElement.focus();
+    }
   };
 
   closeBtn?.addEventListener('click', closeSheet);
   backdrop?.addEventListener('click', closeSheet);
+  
+  // Handle click/keyboard on handle bar
+  handle?.addEventListener('click', closeSheet);
+  handle?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      closeSheet();
+    }
+  });
 
   // Close on escape key
   document.addEventListener('keydown', (e) => {
@@ -215,7 +275,6 @@ function initMobileBottomSheet() {
 
   // Swipe down to close
   let touchStartY = 0;
-  const handle = sheet.querySelector('.bottom-sheet-handle');
   
   handle?.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
@@ -340,7 +399,7 @@ function attachMobileControlHandlers() {
 
   // Share button
   shareBtn?.addEventListener('click', async () => {
-    const success = await UI.shareConfig(
+    await UI.shareConfig(
       () => UI.showToast('URL copiada al clipboard'),
       () => UI.showToast('Error al copiar URL')
     );

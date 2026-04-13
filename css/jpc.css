@@ -715,16 +715,398 @@ body {
 .red   { color: #c42525; }   /* rojo saturado */
 .green { color: #1d7a2a; }   /* verde profundo */
 
+/* ── Mobile Controls Toggle Button ── */
+.mobile-controls-toggle {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  background: var(--gold);
+  color: #faf7f1;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(160, 116, 42, 0.4);
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-controls-toggle:active {
+  transform: scale(0.95);
+}
+
+.mobile-controls-toggle .toggle-icon {
+  margin-right: 6px;
+}
+
+/* ── Mobile Bottom Sheet ── */
+.mobile-bottom-sheet {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.mobile-bottom-sheet.is-open {
+  pointer-events: auto;
+}
+
+.bottom-sheet-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-bottom-sheet.is-open .bottom-sheet-backdrop {
+  opacity: 1;
+}
+
+.bottom-sheet-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--panel);
+  border-radius: 20px 20px 0 0;
+  padding: 16px 20px 32px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 85vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-bottom-sheet.is-open .bottom-sheet-content {
+  transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 12px;
+}
+
+.handle-bar {
+  width: 40px;
+  height: 4px;
+  background: var(--text-muted);
+  border-radius: 2px;
+  opacity: 0.5;
+}
+
+.bottom-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.bottom-sheet-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.bottom-sheet-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-sheet-close:active {
+  color: var(--gold);
+}
+
+/* ── Mobile Controls in Bottom Sheet ── */
+.mobile-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-control-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.mobile-control-slider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobile-control-slider input[type="range"] {
+  flex: 1;
+  height: 44px;
+  accent-color: var(--gold);
+  margin: 0;
+  touch-action: pan-y;
+}
+
+.mobile-control-value {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--gold);
+  min-width: 50px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.mobile-engine-select {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--panel-soft);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--r);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  min-height: 52px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-engine-select:hover,
+.mobile-engine-select:focus {
+  border-color: var(--gold);
+}
+
+.mobile-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.mobile-btn {
+  padding: 16px 12px;
+  border: none;
+  border-radius: var(--r);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  min-height: 56px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.mobile-btn:active {
+  transform: scale(0.98);
+}
+
+.mobile-btn-random {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.35);
+}
+
+.mobile-btn-reset {
+  background: var(--panel-soft);
+  border: 1px solid var(--panel-border);
+  color: var(--text-dim);
+}
+
+.mobile-btn-download {
+  background: var(--gold-soft);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+
+.mobile-btn-share {
+  background: var(--panel-soft);
+  border: 1px solid var(--panel-border);
+  color: var(--text-dim);
+}
+
+/* ── Touch-optimized Sliders ── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: var(--panel-soft);
+  border-radius: 4px;
+  border: 1px solid var(--panel-border);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 2px solid #faf7f1;
+  box-shadow: 0 2px 8px rgba(160, 116, 42, 0.4);
+  margin-top: -9px;
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: var(--panel-soft);
+  border-radius: 4px;
+  border: 1px solid var(--panel-border);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 2px solid #faf7f1;
+  box-shadow: 0 2px 8px rgba(160, 116, 42, 0.4);
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]::-moz-range-thumb:active {
+  transform: scale(1.1);
+}
+
 /* ── Responsive ── */
-@media (max-width: 640px) {
-  .app-shell      { width: min(1100px, 100% - 16px); padding: 8px 0; gap: 8px; }
+@media (max-width: 768px) {
+  .app-shell      { width: 100%; padding: 8px; gap: 8px; }
   .topbar         { padding: 14px 16px; }
+  .brand-title    { font-size: 1.3rem; }
   .canvas-card    { padding: 10px; }
-  .controls-panel { grid-template-columns: 1fr 1fr; }
+  
+  /* Hide desktop controls on mobile */
+  .controls-panel { display: none; }
+  
+  /* Show mobile toggle */
+  .mobile-controls-toggle {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Show mobile bottom sheet */
+  .mobile-bottom-sheet {
+    display: block;
+  }
+  
+  /* Adjust canvas frame for mobile */
   .canvas-container {
     box-shadow:
       inset 0 0 0 10px #2d1f0e,
       inset 0 0 0 11px rgba(196, 152, 74, 0.55),
       0 8px 30px rgba(0, 0, 0, 0.6);
+    padding: 10px;
+  }
+  
+  /* Larger touch targets for chips */
+  .chip {
+    padding: 12px 20px;
+    font-size: 0.7rem;
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Prevent text selection on interactive elements */
+  .chip, .mobile-btn, .mobile-controls-toggle, .bottom-sheet-close {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .brand-wrap {
+    width: 100%;
+  }
+  
+  .palette-section {
+    align-items: center;
+    width: 100%;
+  }
+  
+  .controls {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .custom-colors-panel {
+    align-self: center;
+  }
+  
+  /* Make color pickers larger on mobile */
+  .color-picker {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .custom-colors-panel .color-picker {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* Safe area insets for notched phones */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .app-shell {
+    padding-top: max(12px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  
+  .mobile-bottom-sheet .bottom-sheet-content {
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
   }
 }

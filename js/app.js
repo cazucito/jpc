@@ -181,6 +181,172 @@ function attachColorPickerHandlers() {
   });
 }
 
+// ── Mobile Bottom Sheet ──
+function initMobileBottomSheet() {
+  const toggleBtn = document.getElementById('mobile-controls-toggle');
+  const closeBtn = document.getElementById('close-bottom-sheet');
+  const sheet = document.getElementById('mobile-bottom-sheet');
+  const backdrop = sheet?.querySelector('.bottom-sheet-backdrop');
+  
+  if (!toggleBtn || !sheet) return;
+
+  // Open sheet
+  toggleBtn.addEventListener('click', () => {
+    sheet.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    syncMobileControls();
+  });
+
+  // Close sheet
+  const closeSheet = () => {
+    sheet.classList.remove('is-open');
+    document.body.style.overflow = '';
+  };
+
+  closeBtn?.addEventListener('click', closeSheet);
+  backdrop?.addEventListener('click', closeSheet);
+
+  // Close on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sheet.classList.contains('is-open')) {
+      closeSheet();
+    }
+  });
+
+  // Swipe down to close
+  let touchStartY = 0;
+  const handle = sheet.querySelector('.bottom-sheet-handle');
+  
+  handle?.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  handle?.addEventListener('touchmove', (e) => {
+    const touchY = e.touches[0].clientY;
+    const diff = touchY - touchStartY;
+    if (diff > 50) {
+      closeSheet();
+    }
+  }, { passive: true });
+}
+
+// Sync mobile controls with preferences
+function syncMobileControls() {
+  const lineInput = document.getElementById('mobile-line-count');
+  const lineValue = document.getElementById('mobile-line-count-value');
+  const strokeInput = document.getElementById('mobile-stroke-width');
+  const strokeValue = document.getElementById('mobile-stroke-width-value');
+  const engineSelect = document.getElementById('mobile-stroke-engine');
+
+  if (lineInput) {
+    lineInput.value = UserPreferences.lines;
+    if (lineValue) lineValue.textContent = String(UserPreferences.lines);
+  }
+  if (strokeInput) {
+    strokeInput.value = UserPreferences.stroke;
+    if (strokeValue) strokeValue.textContent = String(UserPreferences.stroke);
+  }
+  if (engineSelect) {
+    engineSelect.value = UserPreferences.engine;
+  }
+}
+
+// Attach mobile control handlers
+function attachMobileControlHandlers() {
+  const lineInput = document.getElementById('mobile-line-count');
+  const lineValue = document.getElementById('mobile-line-count-value');
+  const strokeInput = document.getElementById('mobile-stroke-width');
+  const strokeValue = document.getElementById('mobile-stroke-width-value');
+  const engineSelect = document.getElementById('mobile-stroke-engine');
+  const randomBtn = document.getElementById('mobile-randomize');
+  const resetBtn = document.getElementById('mobile-reset');
+  const downloadBtn = document.getElementById('mobile-download');
+  const shareBtn = document.getElementById('mobile-share');
+
+  let debounceTimer = null;
+  const scheduleRender = () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => render(), 120);
+  };
+
+  // Lines slider
+  lineInput?.addEventListener('input', () => {
+    UserPreferences.lines = Number(lineInput.value);
+    if (lineValue) lineValue.textContent = String(UserPreferences.lines);
+    // Sync desktop control
+    const desktopLineInput = document.getElementById('line-count');
+    const desktopLineValue = document.getElementById('line-count-value');
+    if (desktopLineInput) desktopLineInput.value = UserPreferences.lines;
+    if (desktopLineValue) desktopLineValue.textContent = String(UserPreferences.lines);
+    scheduleRender();
+  });
+
+  // Stroke slider
+  strokeInput?.addEventListener('input', () => {
+    UserPreferences.stroke = Number(strokeInput.value);
+    if (strokeValue) strokeValue.textContent = String(UserPreferences.stroke);
+    // Sync desktop control
+    const desktopStrokeInput = document.getElementById('stroke-width');
+    const desktopStrokeValue = document.getElementById('stroke-width-value');
+    if (desktopStrokeInput) desktopStrokeInput.value = UserPreferences.stroke;
+    if (desktopStrokeValue) desktopStrokeValue.textContent = String(UserPreferences.stroke);
+    scheduleRender();
+  });
+
+  // Engine select
+  engineSelect?.addEventListener('change', () => {
+    UserPreferences.engine = engineSelect.value;
+    UserPreferences.save();
+    // Sync desktop control
+    const desktopEngineSelect = document.getElementById('stroke-engine');
+    if (desktopEngineSelect) desktopEngineSelect.value = UserPreferences.engine;
+    applyStrokeEngine();
+    render(UserPreferences.colorSet);
+  });
+
+  // Random button
+  randomBtn?.addEventListener('click', () => {
+    const palettes = ColorRegistry.names();
+    const engines = ['brush', 'pen', 'pencil', 'marker', 'charcoal'];
+    
+    UserPreferences.randomize(palettes, engines);
+    
+    // Update all UI
+    UI.syncControls(UserPreferences);
+    syncMobileControls();
+    ColorRegistry.register('CUSTOM', UserPreferences.customColors);
+    UI.setActivePreset(UserPreferences.colorSet);
+    applyStrokeEngine();
+    
+    UI.showToast(`Random: ${UserPreferences.colorSet} · ${UserPreferences.lines} lines · ${UserPreferences.engine}`);
+    render(UserPreferences.colorSet);
+  });
+
+  // Reset button
+  resetBtn?.addEventListener('click', () => {
+    UserPreferences.reset();
+    UI.syncControls(UserPreferences);
+    syncMobileControls();
+    ColorRegistry.register('CUSTOM', UserPreferences.customColors);
+    UI.setActivePreset(UserPreferences.colorSet);
+    applyStrokeEngine();
+    render(UserPreferences.colorSet);
+  });
+
+  // Download button
+  downloadBtn?.addEventListener('click', () => {
+    UI.downloadCanvas(AppState.canvas);
+  });
+
+  // Share button
+  shareBtn?.addEventListener('click', async () => {
+    const success = await UI.shareConfig(
+      () => UI.showToast('URL copiada al clipboard'),
+      () => UI.showToast('Error al copiar URL')
+    );
+  });
+}
+
 export function init() {
   UserPreferences.load();
   
@@ -212,6 +378,8 @@ export function init() {
   attachDownloadHandler();
   attachShareHandler();
   attachColorPickerHandlers();
+  initMobileBottomSheet();
+  attachMobileControlHandlers();
   
   // Update URL when preferences change
   const originalSave = UserPreferences.save.bind(UserPreferences);

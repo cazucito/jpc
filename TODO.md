@@ -1,23 +1,23 @@
-## [2026-04-13] Mobile Palettes Bottom Sheet
+## [2026-04-13] Gallery Mode v3.5.0
 
-### Tareas
-- [x] Setup: crear branch
-- [x] HTML: simplificar topbar en móvil, agregar botón Palettes
-- [x] HTML: agregar bottom sheet de paletas con grid
-- [x] CSS: ocultar chips en móvil, mostrar botón Palettes
-- [x] CSS: estilos grid de paletas con preview de colores
-- [x] JS: reutilizar lógica de bottom sheet para paletas
-- [x] JS: generar grid dinámicamente desde ColorRegistry
-- [x] JS: sincronizar selección entre sheet y desktop
-- [x] Commit y push
-- [x] PR
+### Plan de implementación
+- [x] Crear branch feature/gallery-mode
+- [x] Agregar funciones seeded random en util.js
+- [x] Agregar soporte para seed en UserPreferences
+- [x] Agregar toggle/button para activar modo galería
+- [x] Crear contenedor grid para mini-canvas (2x2)
+- [x] Generar seeds aleatorios para cada miniatura
+- [x] Renderizar miniaturas con config actual pero seed diferente
+- [x] Click en miniatura = aplicar seed al canvas principal
+- [x] Botón "New Variations" para regenerar
+- [x] Responsive: adaptar grid según tamaño
+- [x] Estilos CSS para galería
+- [ ] Test y PR
 
-### Revisión Copilot - Fixes aplicados
-- [x] Incluir CUSTOM palette en el grid (no filtrar)
-- [x] Sincronizar color pickers mobile al cargar (desde UserPreferences)
-- [x] Agregar aria-labelledby a inputs color para accesibilidad
-- [x] Commit y push fixes
-
-### Resultado
-✅ PR #28: https://github.com/cazucito/jpc/pull/28
-🔄 Fixes aplicados
+### Detalles implementados
+- Grid 2x2 con 4 variaciones
+- Cada miniatura usa seed único para reproducibilidad
+- Preview con menos líneas (líneas/4) para velocidad
+- Seed se limpia después de usar para mantener random en siguientes renders
+- Botón Gallery toggle visibility
+- Botón New Variations regenera seeds aleatorios

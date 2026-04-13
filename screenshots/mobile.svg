@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1334">
+  <!-- Phone frame -->
+  <rect width="750" height="1334" rx="40" fill="#1a1a1a"/>
+  <rect x="20" y="20" width="710" height="1294" rx="30" fill="#f2ede3"/>
+  
+  <!-- Status bar -->
+  <rect x="20" y="20" width="710" height="44" fill="#c4984a"/>
+  <text x="375" y="50" font-family="'Space Mono', monospace" font-size="16" fill="#ffffff" text-anchor="middle">9:41</text>
+  
+  <!-- Header -->
+  <rect x="40" y="84" width="670" height="70" fill="#faf7f1" rx="8"/>
+  <text x="60" y="128" font-family="'Playfair Display', Georgia, serif" font-size="28" fill="#1c1914">JPCanvas</text>
+  
+  <!-- Canvas frame -->
+  <rect x="75" y="174" width="600" height="360" fill="#2d1f0e" rx="4"/>
+  <rect x="85" y="184" width="580" height="340" fill="#c4984a"/>
+  <rect x="95" y="194" width="560" height="320" fill="#ffffff"/>
+  
+  <!-- Art lines -->
+  <line x1="150" y1="460" x2="600" y2="250" stroke="#1a1a1a" stroke-width="10" stroke-linecap="round"/>
+  <line x1="130" y1="300" x2="500" y2="480" stroke="#c42525" stroke-width="8" stroke-linecap="round"/>
+  <line x1="250" y1="220" x2="580" y2="380" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Floating buttons -->
+  <rect x="580" y="560" width="110" height="44" fill="#11998e" rx="22"/>
+  <text x="635" y="588" font-family="'Space Mono', monospace" font-size="12" fill="#ffffff" text-anchor="middle">🎨 Palettes</text>
+  
+  <rect x="580" y="620" width="110" height="44" fill="#c4984a" rx="22"/>
+  <text x="635" y="648" font-family="'Space Mono', monospace" font-size="12" fill="#ffffff" text-anchor="middle">⚙️ Controls</text>
+  
+  <!-- Bottom sheet preview -->
+  <rect x="40" y="700" width="670" height="400" fill="#faf7f1" rx="16"/>
+  <rect x="365" y="710" width="20" height="4" fill="#9a8e7e" rx="2"/>
+  <text x="60" y="740" font-family="'Playfair Display', Georgia, serif" font-size="20" fill="#1c1914">Controls</text>
+  
+  <!-- Controls in bottom sheet -->
+  <text x="60" y="780" font-family="'Space Mono', monospace" font-size="12" fill="#7a6e5a">LINES</text>
+  <rect x="60" y="790" width="300" height="8" fill="#ede8de" rx="4"/>
+  <rect x="60" y="790" width="180" height="8" fill="#c4984a" rx="4"/>
+  <text x="380" y="798" font-family="'Space Mono', monospace" font-size="14" fill="#1c1914">6000</text>
+  
+  <text x="60" y="840" font-family="'Space Mono', monospace" font-size="12" fill="#7a6e5a">STROKE</text>
+  <rect x="60" y="850" width="300" height="8" fill="#ede8de" rx="4"/>
+  <rect x="60" y="850" width="120" height="8" fill="#c4984a" rx="4"/>
+  <text x="380" y="858" font-family="'Space Mono', monospace" font-size="14" fill="#1c1914">3</text>
+  
+  <!-- Action buttons -->
+  <rect x="60" y="920" width="140" height="44" fill="#11998e" rx="8"/>
+  <text x="130" y="948" font-family="'Space Mono', monospace" font-size="12" fill="#ffffff" text-anchor="middle">🎲 Random</text>
+  
+  <rect x="220" y="920" width="100" height="44" fill="#9a8e7e" rx="8"/>
+  <text x="270" y="948" font-family="'Space Mono', monospace" font-size="12" fill="#ffffff" text-anchor="middle">Reset</text>
+  
+  <rect x="340" y="920" width="120" height="44" fill="#c4984a" rx="8"/>
+  <text x="400" y="948" font-family="'Space Mono', monospace" font-size="12" fill="#ffffff" text-anchor="middle">⬇ Download</text>
+  
+  <rect x="480" y="920" width="100" height="44" fill="#667eea" rx="8"/>
+  <text x="530" y="948" font-family="'Space Mono', monospace" font-size="12" fill="#ffffff" text-anchor="middle">⬆ Share</text>
+  
+  <!-- Home indicator -->
+  <rect x="275" y="1280" width="200" height="6" fill="#1a1a1a" rx="3"/>
+</svg>

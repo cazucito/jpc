@@ -33,6 +33,15 @@ function render(colorSet) {
   UI.setTitle(palette);
   UI.setActivePreset(palette);
 
+  // Use seed if defined for deterministic rendering
+  if (UserPreferences.seed !== null) {
+    renderWithSeed(AppState.ctx, AppState.canvas, UserPreferences.seed, palette);
+    UI.setRenderStatus(false);
+    // Clear seed after use (so next render is random unless another seed is set)
+    UserPreferences.seed = null;
+    return;
+  }
+
   JPPainter.render({
     ctx:             AppState.ctx,
     canvas:          AppState.canvas,
@@ -44,6 +53,45 @@ function render(colorSet) {
     animation:       UserPreferences.animation,
     animationSpeed:  UserPreferences.animationSpeed,
   });
+}
+
+function renderWithSeed(ctx, canvas, seed, colorSet) {
+  // Use a deterministic random based on seed for this render
+  const originalGetRandomInt = Util.getRandomInt;
+  let seedState = seed;
+  
+  Util.getRandomInt = function(min, max) {
+    seedState = (seedState * 16807) % 2147483647;
+    return min + (seedState % (max - min));
+  };
+  
+  // Use instant mode for seed-based renders
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  const total = UserPreferences.lines;
+  const strokeWidth = UserPreferences.stroke;
+  
+  for (let i = 0; i < total; i++) {
+    JPPainter.drawLine(ctx, {
+      strokeWidth,
+      color: ColorRegistry.random(colorSet),
+      from: { 
+        x: Util.getRandomInt(0, canvas.width),  
+        y: Util.getRandomInt(0, canvas.height) 
+      },
+      to: { 
+        x: Util.getRandomInt(0, canvas.width),  
+        y: Util.getRandomInt(0, canvas.height) 
+      },
+    });
+  }
+  
+  JPPainter.drawSignature(ctx, canvas);
+  
+  // Restore original random function
+  Util.getRandomInt = originalGetRandomInt;
 }
 
 function attachResizeHandler() {
@@ -662,6 +710,133 @@ function initMobilePalettesSheet() {
   return updateActivePalette;
 }
 
+// ── Gallery Mode ──
+function initGalleryMode() {
+  const galleryToggle = document.getElementById('gallery-toggle');
+  const gallerySection = document.getElementById('gallery-section');
+  const regenerateBtn = document.getElementById('regenerate-gallery');
+  const galleryGrid = document.getElementById('gallery-grid');
+  
+  if (!galleryToggle || !gallerySection || !galleryGrid) return;
+
+  let gallerySeeds = [];
+  const GALLERY_SIZE = 4; // 2x2 grid
+
+  function generateSeeds() {
+    gallerySeeds = [];
+    for (let i = 0; i < GALLERY_SIZE; i++) {
+      gallerySeeds.push(Util.generateSeed());
+    }
+  }
+
+  function renderGalleryItem(seed, index) {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.setAttribute('role', 'button');
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('aria-label', `Variation ${index + 1}`);
+    
+    const canvas = document.createElement('canvas');
+    canvas.width = 400;
+    canvas.height = 200;
+    item.appendChild(canvas);
+    
+    const label = document.createElement('span');
+    label.className = 'gallery-item-label';
+    label.textContent = `#${index + 1}`;
+    item.appendChild(label);
+    
+    // Render mini version with seed
+    const ctx = canvas.getContext('2d');
+    renderWithSeed(ctx, canvas, seed);
+    
+    // Click to apply seed
+    item.addEventListener('click', () => {
+      UserPreferences.seed = seed;
+      render(UserPreferences.colorSet);
+      UI.showToast('Variation applied');
+    });
+    
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        UserPreferences.seed = seed;
+        render(UserPreferences.colorSet);
+        UI.showToast('Variation applied');
+      }
+    });
+    
+    return item;
+  }
+
+  function renderWithSeed(ctx, canvas, seed) {
+    // Use a deterministic random based on seed for this render
+    const originalGetRandomInt = Util.getRandomInt;
+    let seedState = seed;
+    
+    Util.getRandomInt = function(min, max) {
+      seedState = (seedState * 16807) % 2147483647;
+      return min + (seedState % (max - min));
+    };
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    const totalLines = Math.floor(UserPreferences.lines / 4); // Fewer lines for preview
+    const strokeWidth = UserPreferences.stroke;
+    const colorSet = UserPreferences.colorSet;
+    
+    for (let i = 0; i < totalLines; i++) {
+      JPPainter.drawLine(ctx, {
+        strokeWidth,
+        color: ColorRegistry.random(colorSet),
+        from: { 
+          x: Util.getRandomInt(0, canvas.width),  
+          y: Util.getRandomInt(0, canvas.height) 
+        },
+        to: { 
+          x: Util.getRandomInt(0, canvas.width),  
+          y: Util.getRandomInt(0, canvas.height) 
+        },
+      });
+    }
+    
+    JPPainter.drawSignature(ctx, canvas);
+    
+    // Restore original random function
+    Util.getRandomInt = originalGetRandomInt;
+  }
+
+  function buildGallery() {
+    galleryGrid.innerHTML = '';
+    generateSeeds();
+    
+    gallerySeeds.forEach((seed, index) => {
+      const item = renderGalleryItem(seed, index);
+      galleryGrid.appendChild(item);
+    });
+  }
+
+  function toggleGallery() {
+    const isVisible = gallerySection.style.display !== 'none';
+    
+    if (isVisible) {
+      gallerySection.style.display = 'none';
+      galleryToggle.setAttribute('aria-pressed', 'false');
+    } else {
+      gallerySection.style.display = 'block';
+      galleryToggle.setAttribute('aria-pressed', 'true');
+      if (galleryGrid.children.length === 0) {
+        buildGallery();
+      }
+    }
+  }
+
+  galleryToggle.addEventListener('click', toggleGallery);
+  regenerateBtn?.addEventListener('click', buildGallery);
+}
+
 export function init() {
   UserPreferences.load();
   
@@ -696,6 +871,7 @@ export function init() {
   initMobileBottomSheet();
   attachMobileControlHandlers();
   initMobilePalettesSheet();
+  initGalleryMode();
   
   // Update URL when preferences change
   const originalSave = UserPreferences.save.bind(UserPreferences);

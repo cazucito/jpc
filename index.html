@@ -102,11 +102,23 @@
               <span id="animation-speed-value" class="control-value">5</span>
             </label>
 
+            <button id="gallery-toggle" type="button" class="btn-gallery" title="Toggle gallery mode">&#x1F5BC; Gallery</button>
             <button id="randomize-config" type="button" class="btn-random" title="Random configuration">&#x1F3B2; Random</button>
             <button id="reset-defaults" type="button" class="btn-reset">Reset</button>
             <button id="download-art" type="button" class="btn-download" title="Download artwork as PNG">&#x2193; Download</button>
             <button id="share-config" type="button" class="btn-share" title="Copy URL to share">&#x1F4E4; Share</button>
           </div>
+        </div>
+      </section>
+
+      <!-- Gallery Mode -->
+      <section id="gallery-section" class="gallery-section" style="display: none;">
+        <div class="gallery-header">
+          <h3 class="gallery-title">Variations</h3>
+          <button id="regenerate-gallery" type="button" class="btn-regenerate-gallery">&#x1F504; New Variations</button>
+        </div>
+        <div id="gallery-grid" class="gallery-grid">
+          <!-- Gallery items injected dynamically -->
         </div>
       </section>
 

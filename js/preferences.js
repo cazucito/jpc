@@ -18,6 +18,7 @@ export const UserPreferences = {
   engine:          DEFAULTS.engine,
   animation:       DEFAULTS.animation,
   animationSpeed:  DEFAULTS.animationSpeed,
+  seed:            null,  // null = random, number = deterministic
 
   load() {
     try {

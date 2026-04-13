@@ -56,6 +56,11 @@ Explore variations of your artwork:
 - **Download PNG** — save artwork with timestamp
 - **Share** — copy URL with embedded parameters
 
+### ⚡ Performance
+- **Web Workers** — background rendering keeps UI responsive
+- **Batched rendering** — smooth performance with 10000+ lines
+- **No UI freezing** — interact while drawing on mobile
+
 ### 💾 Persistence
 - Preferences saved in `localStorage`
 - Shareable URLs with all parameters
@@ -85,8 +90,14 @@ js/
   painter.js         — canvas rendering engine
   ui.js              — DOM updates, chips, controls, toast notifications
   urlParams.js       — URL serialization/deserialization
+  render-worker.js   — Web Worker for background rendering
+  worker-manager.js  — Worker lifecycle management
 css/
   jpc.css            — all styles (desktop + mobile)
+sw.js                — Service Worker for PWA offline support
+manifest.json        — PWA manifest
+icons/               — PWA icons (8 sizes)
+screenshots/         — App store screenshots
 ```
 
 See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full architecture notes.
@@ -145,11 +156,18 @@ npx serve .
 
 ---
 
-**Version: v3.6.0**
+**Version: v3.7.0**
 
 ---
 
 ## Changelog
+
+### v3.7.0 — Web Workers
+- ⚡ Background rendering with Web Workers
+- 🚀 UI stays responsive during heavy renders (5000+ lines)
+- 📱 No more freezing on mobile devices
+- 🔄 Smart fallback to main thread when needed
+- 🎯 Animation mode and seed renders optimized
 
 ### v3.6.0 — PWA
 - 📱 Progressive Web App support

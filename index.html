@@ -48,6 +48,12 @@
         <span class="toggle-text">Controls</span>
       </button>
 
+      <!-- Mobile Palettes Toggle -->
+      <button id="mobile-palettes-toggle" type="button" class="mobile-palettes-toggle" aria-label="Open palettes" aria-expanded="false" aria-controls="mobile-palettes-sheet">
+        <span class="toggle-icon">🎨</span>
+        <span class="toggle-text">Palettes</span>
+      </button>
+
       <section class="canvas-card" aria-live="polite">
         <div id="containerCanvas" class="canvas-container">
           <canvas id="jpcanvas">NOT SUPPORTED</canvas>
@@ -163,6 +169,25 @@
                 <button id="mobile-download" type="button" class="mobile-btn mobile-btn-download">⬇ Download</button>
                 <button id="mobile-share" type="button" class="mobile-btn mobile-btn-share">⬆ Share</button>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Palettes Bottom Sheet -->
+      <div id="mobile-palettes-sheet" class="mobile-bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="palettes-sheet-title" aria-hidden="true">
+        <div class="bottom-sheet-backdrop"></div>
+        <div class="bottom-sheet-content">
+          <div class="bottom-sheet-handle" role="button" tabindex="0" aria-label="Swipe down to close">
+            <span class="handle-bar"></span>
+          </div>
+          <div class="bottom-sheet-header">
+            <h3 id="palettes-sheet-title" class="bottom-sheet-title">Palettes</h3>
+            <button id="close-palettes-sheet" type="button" class="bottom-sheet-close" aria-label="Close">✕</button>
+          </div>
+          <div class="bottom-sheet-body">
+            <div id="mobile-palettes-grid" class="mobile-palettes-grid">
+              <!-- Palettes injected dynamically -->
             </div>
           </div>
         </div>

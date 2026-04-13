@@ -9,5 +9,15 @@
 - [x] JS: reutilizar lógica de bottom sheet para paletas
 - [x] JS: generar grid dinámicamente desde ColorRegistry
 - [x] JS: sincronizar selección entre sheet y desktop
-- [ ] Commit y push
-- [ ] PR
+- [x] Commit y push
+- [x] PR
+
+### Revisión Copilot - Fixes aplicados
+- [x] Incluir CUSTOM palette en el grid (no filtrar)
+- [x] Sincronizar color pickers mobile al cargar (desde UserPreferences)
+- [x] Agregar aria-labelledby a inputs color para accesibilidad
+- [x] Commit y push fixes
+
+### Resultado
+✅ PR #28: https://github.com/cazucito/jpc/pull/28
+🔄 Fixes aplicados

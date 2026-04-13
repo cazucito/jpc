@@ -594,6 +594,19 @@ function initMobilePalettesSheet() {
 
 // Attach mobile custom color pickers
 function attachMobileColorPickers() {
+  const syncMobileColorPickers = () => {
+    ['custom-color-1', 'custom-color-2', 'custom-color-3'].forEach((id, i) => {
+      const mobileId = 'mobile-' + id;
+      const mobilePicker = document.getElementById(mobileId);
+      if (mobilePicker) {
+        mobilePicker.value = UserPreferences.customColors[i];
+      }
+    });
+  };
+  
+  // Initial sync from preferences
+  syncMobileColorPickers();
+  
   ['mobile-custom-color-1', 'mobile-custom-color-2', 'mobile-custom-color-3'].forEach((id, i) => {
     document.getElementById(id)?.addEventListener('input', (e) => {
       UserPreferences.customColors[i] = e.target.value;
@@ -608,18 +621,6 @@ function attachMobileColorPickers() {
       render('CUSTOM');
     });
   });
-  
-  // Sync mobile pickers from desktop
-  function syncMobileColorPickers() {
-    ['custom-color-1', 'custom-color-2', 'custom-color-3'].forEach((id, i) => {
-      const mobileId = 'mobile-' + id;
-      const mobilePicker = document.getElementById(mobileId);
-      const desktopPicker = document.getElementById(id);
-      if (mobilePicker && desktopPicker) {
-        mobilePicker.value = desktopPicker.value;
-      }
-    });
-  }
   
   return syncMobileColorPickers;
 }

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -41,6 +41,12 @@
           </div>
         </div>
       </header>
+
+      <!-- Mobile Controls Toggle -->
+      <button id="mobile-controls-toggle" type="button" class="mobile-controls-toggle" aria-label="Open controls" aria-expanded="false" aria-controls="mobile-bottom-sheet">
+        <span class="toggle-icon">⚙️</span>
+        <span class="toggle-text">Controls</span>
+      </button>
 
       <section class="canvas-card" aria-live="polite">
         <div id="containerCanvas" class="canvas-container">
@@ -86,6 +92,57 @@
           </div>
         </div>
       </section>
+
+      <!-- Mobile Bottom Sheet -->
+      <div id="mobile-bottom-sheet" class="mobile-bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="bottom-sheet-title" aria-hidden="true">
+        <div class="bottom-sheet-backdrop"></div>
+        <div class="bottom-sheet-content">
+          <div class="bottom-sheet-handle" role="button" tabindex="0" aria-label="Swipe down to close">
+            <span class="handle-bar"></span>
+          </div>
+          <div class="bottom-sheet-header">
+            <h3 id="bottom-sheet-title" class="bottom-sheet-title">Controls</h3>
+            <button id="close-bottom-sheet" type="button" class="bottom-sheet-close" aria-label="Cerrar">✕</button>
+          </div>
+          <div class="bottom-sheet-body">
+            <div class="mobile-controls">
+              <label class="mobile-control-item">
+                <span class="mobile-control-label">Lines</span>
+                <div class="mobile-control-slider">
+                  <input id="mobile-line-count" type="range" min="1000" max="12000" step="250" value="6000">
+                  <span id="mobile-line-count-value" class="mobile-control-value">6000</span>
+                </div>
+              </label>
+
+              <label class="mobile-control-item">
+                <span class="mobile-control-label">Stroke</span>
+                <div class="mobile-control-slider">
+                  <input id="mobile-stroke-width" type="range" min="1" max="6" step="1" value="3">
+                  <span id="mobile-stroke-width-value" class="mobile-control-value">3</span>
+                </div>
+              </label>
+
+              <label class="mobile-control-item">
+                <span class="mobile-control-label">Engine</span>
+                <select id="mobile-stroke-engine" class="mobile-engine-select">
+                  <option value="brush">Brush</option>
+                  <option value="pen">Pen</option>
+                  <option value="pencil">Pencil</option>
+                  <option value="marker">Marker</option>
+                  <option value="charcoal">Charcoal</option>
+                </select>
+              </label>
+
+              <div class="mobile-actions-grid">
+                <button id="mobile-randomize" type="button" class="mobile-btn mobile-btn-random">🎲 Random</button>
+                <button id="mobile-reset" type="button" class="mobile-btn mobile-btn-reset">Reset</button>
+                <button id="mobile-download" type="button" class="mobile-btn mobile-btn-download">⬇ Download</button>
+                <button id="mobile-share" type="button" class="mobile-btn mobile-btn-share">⬆ Share</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <footer class="site-footer">
         <span>&copy; cazucito</span>

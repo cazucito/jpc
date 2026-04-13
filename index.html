@@ -91,10 +91,21 @@
               </select>
             </label>
 
-            <button id="randomize-config" type="button" class="btn-random" title="Configuración aleatoria">&#x1F3B2; Random</button>
+            <label class="control-item">
+              <span class="control-label">Animation</span>
+              <button id="animation-toggle" type="button" class="btn-toggle" aria-pressed="false">Instant</button>
+            </label>
+
+            <label id="animation-speed-container" class="control-item animation-speed" style="display: none;">
+              <span class="control-label">Speed</span>
+              <input id="animation-speed" type="range" min="1" max="10" step="1" value="5">
+              <span id="animation-speed-value" class="control-value">5</span>
+            </label>
+
+            <button id="randomize-config" type="button" class="btn-random" title="Random configuration">&#x1F3B2; Random</button>
             <button id="reset-defaults" type="button" class="btn-reset">Reset</button>
-            <button id="download-art" type="button" class="btn-download" title="Descargar obra como PNG">&#x2193; Download</button>
-            <button id="share-config" type="button" class="btn-share" title="Copiar URL para compartir">&#x1F4E4; Share</button>
+            <button id="download-art" type="button" class="btn-download" title="Download artwork as PNG">&#x2193; Download</button>
+            <button id="share-config" type="button" class="btn-share" title="Copy URL to share">&#x1F4E4; Share</button>
           </div>
         </div>
       </section>
@@ -137,6 +148,19 @@
                   <option value="marker">Marker</option>
                   <option value="charcoal">Charcoal</option>
                 </select>
+              </label>
+
+              <label class="mobile-control-item">
+                <span class="mobile-control-label">Animation</span>
+                <button id="mobile-animation-toggle" type="button" class="mobile-btn-toggle" aria-pressed="false">Instant</button>
+              </label>
+
+              <label id="mobile-animation-speed-container" class="mobile-control-item mobile-animation-speed" style="display: none;">
+                <span class="mobile-control-label">Speed</span>
+                <div class="mobile-control-slider">
+                  <input id="mobile-animation-speed" type="range" min="1" max="10" step="1" value="5">
+                  <span id="mobile-animation-speed-value" class="mobile-control-value">5</span>
+                </div>
               </label>
 
               <div class="mobile-actions-grid">

@@ -28,7 +28,7 @@ export class JPPainter {
     StrokeTracer.draw(ctx, { strokeWidth, color, from, to });
   }
 
-  static render({ ctx, canvas, totalLines, strokeWidth, colorSet, onComplete, signal }) {
+  static render({ ctx, canvas, totalLines, strokeWidth, colorSet, onComplete, signal, animation = false, animationSpeed = 5 }) {
     if (!ctx || !canvas) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -38,6 +38,43 @@ export class JPPainter {
     let rendered = 0;
     const total  = Math.max(0, Number(totalLines) || 0);
 
+    // Animation mode: draw lines one by one with delay
+    if (animation) {
+      const minDelay = 0;    // speed 10
+      const maxDelay = 100;  // speed 1
+      const delay = maxDelay - ((animationSpeed - 1) / 9) * (maxDelay - minDelay);
+
+      let lastDrawTime = 0;
+
+      const drawAnimated = (timestamp) => {
+        if (signal?.aborted) return;
+
+        if (timestamp - lastDrawTime >= delay) {
+          if (rendered < total) {
+            JPPainter.drawLine(ctx, {
+              strokeWidth,
+              color: ColorRegistry.random(colorSet),
+              from:  { x: Util.getRandomInt(0, canvas.width),  y: Util.getRandomInt(0, canvas.height) },
+              to:    { x: Util.getRandomInt(0, canvas.width),  y: Util.getRandomInt(0, canvas.height) },
+            });
+            rendered++;
+            lastDrawTime = timestamp;
+          }
+        }
+
+        if (rendered >= total) {
+          JPPainter.drawSignature(ctx, canvas);
+          onComplete?.();
+        } else if (!signal?.aborted) {
+          requestAnimationFrame(drawAnimated);
+        }
+      };
+
+      requestAnimationFrame(drawAnimated);
+      return;
+    }
+
+    // Instant mode: draw in chunks (original behavior)
     const drawChunk = () => {
       if (signal?.aborted) return;
 

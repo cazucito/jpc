@@ -488,6 +488,42 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Toggle button */
+.btn-toggle,
+.mobile-btn-toggle {
+  background: var(--panel-soft);
+  border: 1px solid var(--panel-border);
+  color: var(--text-dim);
+  border-radius: var(--r);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 36px;
+}
+
+.btn-toggle:hover,
+.mobile-btn-toggle:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn-toggle[aria-pressed="true"],
+.mobile-btn-toggle[aria-pressed="true"] {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* Animation speed control */
+.control-item.animation-speed.is-visible,
+.mobile-control-item.mobile-animation-speed.is-visible {
+  display: grid !important;
+}
+
 .btn-reset {
   background: transparent;
   border: 1px solid var(--panel-border);

@@ -34,13 +34,15 @@ function render(colorSet) {
   UI.setActivePreset(palette);
 
   JPPainter.render({
-    ctx:         AppState.ctx,
-    canvas:      AppState.canvas,
-    totalLines:  UserPreferences.lines,
-    strokeWidth: UserPreferences.stroke,
-    colorSet:    palette,
-    signal:      AppState.renderController.signal,
-    onComplete:  () => UI.setRenderStatus(false),
+    ctx:             AppState.ctx,
+    canvas:          AppState.canvas,
+    totalLines:      UserPreferences.lines,
+    strokeWidth:     UserPreferences.stroke,
+    colorSet:        palette,
+    signal:          AppState.renderController.signal,
+    onComplete:      () => UI.setRenderStatus(false),
+    animation:       UserPreferences.animation,
+    animationSpeed:  UserPreferences.animationSpeed,
   });
 }
 
@@ -112,6 +114,66 @@ function bindEngineSelect(select, syncSelectId) {
   });
 }
 
+// Helper to bind animation toggle
+function bindAnimationToggle(toggleBtn, speedInput, speedValue, speedContainer, syncToggleId, syncSpeedId, syncSpeedValueId, syncSpeedContainer) {
+  if (!toggleBtn) return;
+  
+  const updateToggleUI = (isAnimated) => {
+    toggleBtn.setAttribute('aria-pressed', String(isAnimated));
+    toggleBtn.textContent = isAnimated ? 'Animate' : 'Instant';
+    if (speedContainer) {
+      speedContainer.classList.toggle('is-visible', isAnimated);
+    }
+  };
+  
+  const updateSpeedUI = (speed) => {
+    if (speedInput) speedInput.value = speed;
+    if (speedValue) speedValue.textContent = String(speed);
+  };
+  
+  // Initialize UI
+  updateToggleUI(UserPreferences.animation);
+  updateSpeedUI(UserPreferences.animationSpeed);
+  
+  toggleBtn.addEventListener('click', () => {
+    const newValue = !UserPreferences.animation;
+    UserPreferences.animation = newValue;
+    UserPreferences.save();
+    
+    updateToggleUI(newValue);
+    
+    // Sync with mobile
+    const syncToggle = document.getElementById(syncToggleId);
+    const syncSpeedCont = document.getElementById(syncSpeedContainer);
+    if (syncToggle) {
+      syncToggle.setAttribute('aria-pressed', String(newValue));
+      syncToggle.textContent = newValue ? 'Animate' : 'Instant';
+    }
+    if (syncSpeedCont) {
+      syncSpeedCont.classList.toggle('is-visible', newValue);
+    }
+    
+    render(UserPreferences.colorSet);
+  });
+  
+  // Speed slider
+  if (speedInput) {
+    speedInput.addEventListener('input', () => {
+      const speed = Number(speedInput.value);
+      UserPreferences.animationSpeed = speed;
+      UserPreferences.save();
+      
+      if (speedValue) speedValue.textContent = String(speed);
+      
+      // Sync
+      const syncSpeed = document.getElementById(syncSpeedId);
+      const syncSpeedVal = document.getElementById(syncSpeedValueId);
+      if (syncSpeed) syncSpeed.value = speed;
+      if (syncSpeedVal) syncSpeedVal.textContent = String(speed);
+    });
+  }
+}
+
 function attachControlHandlers() {
   bindRangeControl(
     document.getElementById('line-count'),
@@ -130,6 +192,17 @@ function attachControlHandlers() {
   );
 
   bindEngineSelect(document.getElementById('stroke-engine'), 'mobile-stroke-engine');
+
+  bindAnimationToggle(
+    document.getElementById('animation-toggle'),
+    document.getElementById('animation-speed'),
+    document.getElementById('animation-speed-value'),
+    document.querySelector('.control-item.animation-speed'),
+    'mobile-animation-toggle',
+    'mobile-animation-speed',
+    'mobile-animation-speed-value',
+    'mobile-animation-speed-container'
+  );
 
   const resetBtn = document.getElementById('reset-defaults');
   resetBtn?.addEventListener('click', () => {
@@ -372,6 +445,17 @@ function attachMobileControlHandlers() {
   );
 
   bindEngineSelect(document.getElementById('mobile-stroke-engine'), 'stroke-engine');
+
+  bindAnimationToggle(
+    document.getElementById('mobile-animation-toggle'),
+    document.getElementById('mobile-animation-speed'),
+    document.getElementById('mobile-animation-speed-value'),
+    document.querySelector('.mobile-control-item.mobile-animation-speed'),
+    'animation-toggle',
+    'animation-speed',
+    'animation-speed-value',
+    'animation-speed'
+  );
 
   const randomBtn = document.getElementById('mobile-randomize');
   const resetBtn = document.getElementById('mobile-reset');

@@ -4,6 +4,7 @@ import { UserPreferences }   from './preferences.js';
 import { JPPainter }         from './painter.js';
 import { UI }                from './ui.js';
 import { ColorRegistry }     from './color.js';
+import { Util }              from './util.js';
 import { StrokeTracer, BrushTracer, PenTracer, PencilTracer, MarkerTracer, CharcoalTracer } from './stroke.js';
 import { deserializeFromUrl, updateBrowserUrl } from './urlParams.js';
 

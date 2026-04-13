@@ -69,34 +69,73 @@ function attachNavigationHandlers() {
   });
 }
 
+// Shared debounce timer for range controls
+let rangeDebounceTimer = null;
+const scheduleRender = () => {
+  clearTimeout(rangeDebounceTimer);
+  rangeDebounceTimer = setTimeout(() => render(), 120);
+};
+
+// Helper to bind a range input to a preference and sync with another input
+function bindRangeControl(input, valueDisplay, prefKey, syncInputId, syncValueId) {
+  if (!input) return;
+  
+  input.addEventListener('input', () => {
+    const value = Number(input.value);
+    UserPreferences[prefKey] = value;
+    if (valueDisplay) valueDisplay.textContent = String(value);
+    
+    // Sync with other input if provided
+    const syncInput = document.getElementById(syncInputId);
+    const syncValue = document.getElementById(syncValueId);
+    if (syncInput) syncInput.value = value;
+    if (syncValue) syncValue.textContent = String(value);
+    
+    scheduleRender();
+  });
+}
+
+// Helper to bind engine select
+function bindEngineSelect(select, syncSelectId) {
+  if (!select) return;
+  
+  select.addEventListener('change', () => {
+    UserPreferences.engine = select.value;
+    UserPreferences.save();
+    
+    // Sync with other select if provided
+    const syncSelect = document.getElementById(syncSelectId);
+    if (syncSelect) syncSelect.value = UserPreferences.engine;
+    
+    applyStrokeEngine();
+    render(UserPreferences.colorSet);
+  });
+}
+
 function attachControlHandlers() {
-  const lineInput   = document.getElementById('line-count');
-  const lineValue   = document.getElementById('line-count-value');
-  const strokeInput = document.getElementById('stroke-width');
-  const strokeValue = document.getElementById('stroke-width-value');
-  const resetBtn    = document.getElementById('reset-defaults');
+  bindRangeControl(
+    document.getElementById('line-count'),
+    document.getElementById('line-count-value'),
+    'lines',
+    'mobile-line-count',
+    'mobile-line-count-value'
+  );
 
-  let debounceTimer = null;
-  const scheduleRender = () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => render(), 120);
-  };
+  bindRangeControl(
+    document.getElementById('stroke-width'),
+    document.getElementById('stroke-width-value'),
+    'stroke',
+    'mobile-stroke-width',
+    'mobile-stroke-width-value'
+  );
 
-  lineInput?.addEventListener('input', () => {
-    UserPreferences.lines = Number(lineInput.value);
-    if (lineValue) lineValue.textContent = String(UserPreferences.lines);
-    scheduleRender();
-  });
+  bindEngineSelect(document.getElementById('stroke-engine'), 'mobile-stroke-engine');
 
-  strokeInput?.addEventListener('input', () => {
-    UserPreferences.stroke = Number(strokeInput.value);
-    if (strokeValue) strokeValue.textContent = String(UserPreferences.stroke);
-    scheduleRender();
-  });
-
+  const resetBtn = document.getElementById('reset-defaults');
   resetBtn?.addEventListener('click', () => {
     UserPreferences.reset();
     UI.syncControls(UserPreferences);
+    syncMobileControls();
     ColorRegistry.register('CUSTOM', UserPreferences.customColors);
     UI.setActivePreset(UserPreferences.colorSet);
     applyStrokeEngine();
@@ -240,8 +279,12 @@ function initMobileBottomSheet() {
     sheet.addEventListener('keydown', trapFocus);
   });
 
-  // Close sheet
+  // Close sheet (idempotent)
   const closeSheet = () => {
+    // Early return if already closed
+    if (!sheet.classList.contains('is-open') || sheet.getAttribute('aria-hidden') === 'true') {
+      return;
+    }
     sheet.classList.remove('is-open');
     sheet.setAttribute('aria-hidden', 'true');
     toggleBtn.setAttribute('aria-expanded', 'false');
@@ -312,56 +355,28 @@ function syncMobileControls() {
 
 // Attach mobile control handlers
 function attachMobileControlHandlers() {
-  const lineInput = document.getElementById('mobile-line-count');
-  const lineValue = document.getElementById('mobile-line-count-value');
-  const strokeInput = document.getElementById('mobile-stroke-width');
-  const strokeValue = document.getElementById('mobile-stroke-width-value');
-  const engineSelect = document.getElementById('mobile-stroke-engine');
+  bindRangeControl(
+    document.getElementById('mobile-line-count'),
+    document.getElementById('mobile-line-count-value'),
+    'lines',
+    'line-count',
+    'line-count-value'
+  );
+
+  bindRangeControl(
+    document.getElementById('mobile-stroke-width'),
+    document.getElementById('mobile-stroke-width-value'),
+    'stroke',
+    'stroke-width',
+    'stroke-width-value'
+  );
+
+  bindEngineSelect(document.getElementById('mobile-stroke-engine'), 'stroke-engine');
+
   const randomBtn = document.getElementById('mobile-randomize');
   const resetBtn = document.getElementById('mobile-reset');
   const downloadBtn = document.getElementById('mobile-download');
   const shareBtn = document.getElementById('mobile-share');
-
-  let debounceTimer = null;
-  const scheduleRender = () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => render(), 120);
-  };
-
-  // Lines slider
-  lineInput?.addEventListener('input', () => {
-    UserPreferences.lines = Number(lineInput.value);
-    if (lineValue) lineValue.textContent = String(UserPreferences.lines);
-    // Sync desktop control
-    const desktopLineInput = document.getElementById('line-count');
-    const desktopLineValue = document.getElementById('line-count-value');
-    if (desktopLineInput) desktopLineInput.value = UserPreferences.lines;
-    if (desktopLineValue) desktopLineValue.textContent = String(UserPreferences.lines);
-    scheduleRender();
-  });
-
-  // Stroke slider
-  strokeInput?.addEventListener('input', () => {
-    UserPreferences.stroke = Number(strokeInput.value);
-    if (strokeValue) strokeValue.textContent = String(UserPreferences.stroke);
-    // Sync desktop control
-    const desktopStrokeInput = document.getElementById('stroke-width');
-    const desktopStrokeValue = document.getElementById('stroke-width-value');
-    if (desktopStrokeInput) desktopStrokeInput.value = UserPreferences.stroke;
-    if (desktopStrokeValue) desktopStrokeValue.textContent = String(UserPreferences.stroke);
-    scheduleRender();
-  });
-
-  // Engine select
-  engineSelect?.addEventListener('change', () => {
-    UserPreferences.engine = engineSelect.value;
-    UserPreferences.save();
-    // Sync desktop control
-    const desktopEngineSelect = document.getElementById('stroke-engine');
-    if (desktopEngineSelect) desktopEngineSelect.value = UserPreferences.engine;
-    applyStrokeEngine();
-    render(UserPreferences.colorSet);
-  });
 
   // Random button
   randomBtn?.addEventListener('click', () => {

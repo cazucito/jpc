@@ -12,7 +12,7 @@
 - [ ] Test en iOS Safari + Chrome Android
 - [x] PR y merge
 
-### Revisión de Copilot - Comentarios resueltos
+### Revisión de Copilot - Comentarios resueltos (Ronda 1)
 - [x] Accesibilidad: viewport permite zoom (eliminado user-scalable=no)
 - [x] Accesibilidad: agregados atributos ARIA (role, aria-modal, aria-labelledby, aria-expanded, aria-hidden)
 - [x] Accesibilidad: implementado focus trapping en bottom sheet
@@ -24,6 +24,12 @@
 - [x] Código: variable success sin usar eliminada
 - [x] A11y: visibility + aria-hidden controla accesibilidad del sheet cerrado
 
+### Revisión de Copilot - Comentarios resueltos (Ronda 2)
+- [x] Código: closeSheet() ahora es idempotente (early return si ya está cerrado)
+- [x] A11y: labels cambiados de español a inglés (consistencia con lang="en")
+- [x] UX: área de toque del handle aumentada a 44px mínimo
+- [x] Código: extraídos helpers bindRangeControl() y bindEngineSelect() para eliminar duplicación
+
 ### Resultado
 ✅ PR creado: https://github.com/cazucito/jpc/pull/27
-🔄 Commit de fixes aplicado
+🔄 Commits de fixes aplicados

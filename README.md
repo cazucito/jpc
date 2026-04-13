@@ -145,11 +145,17 @@ npx serve .
 
 ---
 
-**Version: v3.5.0**
+**Version: v3.6.0**
 
 ---
 
 ## Changelog
+
+### v3.6.0 — PWA
+- 📱 Progressive Web App support
+- 🌐 Offline functionality
+- 📲 Installable on iOS, Android, desktop
+- 🎨 App icons and splash screen
 
 ### v3.5.0 — Gallery Mode
 - ✨ Gallery Mode with 4 variations

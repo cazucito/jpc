@@ -385,6 +385,8 @@ function attachColorPickerHandlers() {
 
 // ── Mobile Bottom Sheet ──
 function initMobileBottomSheet() {
+  console.log('[Mobile] Initializing bottom sheet...');
+  
   const toggleBtn = document.getElementById('mobile-controls-toggle');
   const closeBtn = document.getElementById('close-bottom-sheet');
   const sheet = document.getElementById('mobile-bottom-sheet');
@@ -393,7 +395,14 @@ function initMobileBottomSheet() {
   let previousActiveElement = null;
   let previousOverflow = '';
   
-  if (!toggleBtn || !sheet) return;
+  console.log('[Mobile] Elements:', { toggleBtn: !!toggleBtn, sheet: !!sheet, closeBtn: !!closeBtn });
+  
+  if (!toggleBtn || !sheet) {
+    console.error('[Mobile] Missing required elements for bottom sheet');
+    return;
+  }
+  
+  console.log('[Mobile] Bottom sheet initialized successfully');
 
   // Focus trap elements
   const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -518,6 +527,16 @@ function syncMobileControls() {
 
 // Attach mobile control handlers
 function attachMobileControlHandlers() {
+  console.log('[Mobile] Attaching mobile control handlers...');
+  
+  const lineCount = document.getElementById('mobile-line-count');
+  const galleryBtn = document.getElementById('mobile-gallery');
+  
+  console.log('[Mobile] Control elements:', { 
+    lineCount: !!lineCount, 
+    galleryBtn: !!galleryBtn 
+  });
+  
   bindRangeControl(
     document.getElementById('mobile-line-count'),
     document.getElementById('mobile-line-count-value'),
@@ -609,12 +628,25 @@ function attachMobileControlHandlers() {
 
 // ── Mobile Palettes Bottom Sheet ──
 function initMobilePalettesSheet() {
+  console.log('[Mobile] Initializing palettes sheet...');
+  
   const toggleBtn = document.getElementById('mobile-palettes-toggle');
   const closeBtn = document.getElementById('close-palettes-sheet');
   const sheet = document.getElementById('mobile-palettes-sheet');
   const grid = document.getElementById('mobile-palettes-grid');
   
-  if (!toggleBtn || !sheet || !grid) return;
+  console.log('[Mobile] Palette elements:', { 
+    toggleBtn: !!toggleBtn, 
+    sheet: !!sheet, 
+    grid: !!grid 
+  });
+  
+  if (!toggleBtn || !sheet || !grid) {
+    console.error('[Mobile] Missing required elements for palettes sheet');
+    return;
+  }
+  
+  console.log('[Mobile] Palettes sheet initialized successfully');
 
   function buildPalettesGrid() {
     grid.innerHTML = '';

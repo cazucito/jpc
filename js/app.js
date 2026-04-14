@@ -593,6 +593,18 @@ function attachMobileControlHandlers() {
       () => UI.showToast('Error copying URL')
     );
   });
+
+  // Mobile Gallery button
+  const galleryBtn = document.getElementById('mobile-gallery');
+  const galleryToggle = document.getElementById('gallery-toggle');
+  const closeSheetBtn = document.getElementById('close-bottom-sheet');
+  
+  galleryBtn?.addEventListener('click', () => {
+    // Trigger the desktop gallery toggle
+    galleryToggle?.click();
+    // Close the mobile bottom sheet by clicking the close button
+    closeSheetBtn?.click();
+  });
 }
 
 // ── Mobile Palettes Bottom Sheet ──

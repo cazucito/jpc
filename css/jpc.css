@@ -1197,6 +1197,12 @@ body {
   color: var(--text-dim);
 }
 
+.mobile-btn-gallery {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border: none;
+  color: #ffffff;
+}
+
 /* ── Touch-optimized Sliders (Mobile only) ── */
 .mobile-controls input[type="range"],
 .mobile-control-slider input[type="range"] {

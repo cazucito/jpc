@@ -529,13 +529,7 @@ function syncMobileControls() {
 function attachMobileControlHandlers() {
   console.log('[Mobile] Attaching mobile control handlers...');
   
-  const lineCount = document.getElementById('mobile-line-count');
-  const galleryBtn = document.getElementById('mobile-gallery');
-  
-  console.log('[Mobile] Control elements:', { 
-    lineCount: !!lineCount, 
-    galleryBtn: !!galleryBtn 
-  });
+  console.log('[Mobile] Control elements loaded');
   
   bindRangeControl(
     document.getElementById('mobile-line-count'),
@@ -570,6 +564,7 @@ function attachMobileControlHandlers() {
   const resetBtn = document.getElementById('mobile-reset');
   const downloadBtn = document.getElementById('mobile-download');
   const shareBtn = document.getElementById('mobile-share');
+  const galleryBtn = document.getElementById('mobile-gallery');
 
   // Random button
   randomBtn?.addEventListener('click', () => {
@@ -612,13 +607,11 @@ function attachMobileControlHandlers() {
       () => UI.showToast('Error copying URL')
     );
   });
-
-  // Mobile Gallery button
-  const galleryBtn = document.getElementById('mobile-gallery');
-  const galleryToggle = document.getElementById('gallery-toggle');
-  const closeSheetBtn = document.getElementById('close-bottom-sheet');
   
+  // Gallery button handler (already declared above, just add listener)
   galleryBtn?.addEventListener('click', () => {
+    const galleryToggle = document.getElementById('gallery-toggle');
+    const closeSheetBtn = document.getElementById('close-bottom-sheet');
     // Trigger the desktop gallery toggle
     galleryToggle?.click();
     // Close the mobile bottom sheet by clicking the close button

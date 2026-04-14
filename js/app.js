@@ -35,11 +35,7 @@ function render(colorSet) {
   UI.setTitle(palette);
   UI.setActivePreset(palette);
 
-  // Try Web Worker first for better performance
-  const workerStarted = tryWorkerRender(palette);
-  if (workerStarted) return;
-
-  // Fallback to main thread rendering
+  // Web Worker temporarily disabled - use main thread
   renderOnMainThread(palette);
 }
 
@@ -939,11 +935,11 @@ export function init() {
   UI.syncColorPickers(UserPreferences);
   UI.setActivePreset(UserPreferences.colorSet);
   
-  // Initialize Web Worker for background rendering
-  const workerReady = workerManager.init();
-  if (workerReady) {
-    console.log('[App] Web Worker initialized for background rendering');
-  }
+  // Web Worker temporarily disabled - requires canvas restructuring
+  // const workerReady = workerManager.init();
+  // if (workerReady) {
+  //   console.log('[App] Web Worker initialized for background rendering');
+  // }
   
   render(UserPreferences.colorSet);
   attachResizeHandler();
